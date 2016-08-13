@@ -1,0 +1,30 @@
+{
+  "name": "achess",
+  "description": "NVChess tournament organizer",
+  "main": "achess.js",
+  "authors": [
+    "Abhijeet Vaidya"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "Chess"
+  ],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.0",
+    "bootstrap": "^3.3.7",
+    "font-awesome": "fontawesome#^4.6.3",
+    "lodash": "^4.14.1",
+    "moment": "^2.14.1",
+    "chessboardjs": "^0.0.2",
+    "chess.js": "^0.10.2"
+  }
+}

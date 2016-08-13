@@ -1,0 +1,15 @@
+{
+  "name": "chessboardjs",
+  "homepage": "https://github.com/Chesscademy/chessboardjs",
+  "version": "0.0.2",
+  "_release": "0.0.2",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.0.2",
+    "commit": "cd9c170d64acff7cfbed50f4d664eeec646280cb"
+  },
+  "_source": "https://github.com/Chesscademy/chessboardjs.git",
+  "_target": "^0.0.2",
+  "_originalSource": "chessboardjs",
+  "_direct": true
+}

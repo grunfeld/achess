@@ -1,0 +1,135 @@
+<div id="ARENA_HEAD">
+    <div class="spacer10"></div>
+    <div class="row" id="TOURNAMENT_NOTIFICATION">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="well well-lg">
+                <div class="row">
+                    <div class="col-sm-6 col-md-8">
+                        <h3 id="TOURNAMENT_BANNER" class="text-center">Tournament hasn't started yet&hellip;</h3>
+                    </div>
+                    <div class="col-sm-3 col-md-2">
+                        <h3 id="TOURNAMENT_COUNTDOWN_CLOCK"></h3>
+                    </div>
+                    <div class="col-sm-3 col-md-2">
+                        <a href="#" id="JOIN_TOURNAMENT_BTN" role="button" class="btn btn-success btn-lg" value="withdrew">Join</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="TOURNAMENT_RESULT" style="display:none">
+    <div class="spacer30"></div>
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-4">
+            <h2><i class="fa fa-trophy" aria-hidden="true" style="color:#FFD700"></i>&nbsp;&nbsp;
+                <span id="FIRST"></span></h2>
+            <h2><i class="fa fa-trophy" aria-hidden="true" style="color:#C0C0C0"></i>&nbsp;&nbsp;
+                <span id="SECOND"></span></h2>
+            <h2><i class="fa fa-trophy" aria-hidden="true" style="color:#CD7F32"></i>&nbsp;&nbsp;
+                <span id="THIRD"></span></h2>
+            <h1>Congratulations!</h1>
+            <div class="spacer20"></div>
+            <h4><a id="PGN_DOWNLOAD" href="#"><i class="fa fa-download" aria-hidden="true"></i> Download games</a><small> (Copy link location and use the url)</small></h4>
+            <p>Leaderboard has been frozen; outcomes of the ongoing games won't affect it.</p>
+            <p class="lead">Refresh the page to resume the game.</p>
+        </div>
+    </div>
+    <div class="spacer30"></div>
+</div>
+
+<div id="ARENA">
+    <div class="row">
+        <div class="col-sm-9">
+            <h2>Leaderboard</h2>
+            <div class="spacer10"></div>
+            <div id="ARENA_LEADERBOARD"></div>
+        </div>
+        <div class="col-sm-3">
+            <h2><i class="fa fa-rss" aria-hidden="true" style="color:green"></i> Matches</h2>
+            <div class="spacer10"></div>
+            <div id="ONGOING_MATCHES"></div>
+        </div>
+    </div>
+</div>
+
+<div id="GAME_ZONE" style="display:none">
+    <div class="spacer20"></div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 id="GAME_TYPE" class="panel-title">Casual game</h3>
+                </div>
+                <div id="STATUS" class="panel-body"></div>
+            </div>
+            
+            <div style="height:405px;overflow:auto"><p id="CHAT"></p></div>
+            
+            <div class="btn-group" role="group">
+                <button id="ALL_THE_BEST" type="button" class="btn btn-default" data-toggle="tooltip" title="All the best!">
+                    <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                </button>
+                <button id="THANKS" type="button" class="btn btn-default" data-toggle="tooltip" title="Thanks!">
+                    TH
+                </button>
+                <button id="YOU_TOO" type="button" class="btn btn-default" data-toggle="tooltip" title="Same here!">
+                    U2
+                </button>
+            </div>
+            <div class="btn-group" role="group">
+                <button id="WELL_PLAYED" type="button" class="btn btn-default" data-toggle="tooltip" title="Well played!">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+        <div id="BOARD" class="col-md-6" style="width:560px"></div>
+        <div class="col-md-3">
+            <div class="panel panel-default" style="padding:10px;">
+                <div class="panel-heading" style="height:60px">
+                    <h2 id="OPPN_CLOCK" class="panel-title text-center move_timer active_timer"></h2>
+                </div>
+                <div class="panel-body">
+                    <textarea readonly id="PGN" style="height:320px;width:100%;background-color:transparent;border:0;color:white"></textarea>
+                </div>
+                <div class="panel-heading" style="height:60px">
+                    <h2 id="SELF_CLOCK" class="panel-title text-center move_timer active_timer"></h2>
+                </div>
+            </div>
+            
+            <div class="btn-group" role="group">
+                <button id="ADD_TIME_BTN" type="button" class="btn btn-default" data-toggle="tooltip" title="+15 sec.">
+                    <span class="fa fa-plus-square" aria-hidden="true"></span>
+                </button>
+                <button id="TAKEBACK_BTN" type="button" class="btn btn-default" data-toggle="tooltip" title="Offer/Accept Takeback">
+                    <span class="fa fa-reply" aria-hidden="true"></span>
+                </button>
+            </div>
+            
+            <div class="btn-group" role="group">
+                <button id="DRAW_BTN" type="button" class="btn btn-default" data-toggle="tooltip" title="Offer/Accept Draw">
+                    <span class="fa fa-hand-peace-o" aria-hidden="true"></span>
+                </button>
+                <button id="RESIGN_BTN" type="button" class="btn btn-danger" data-toggle="tooltip" title="Resign">
+                    <span class="fa fa-flag" aria-hidden="true"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="GAME_RESULT_DIV" style="display:none">
+    <div class="col-md-6 col-md-offset-3"><h3 id="GAME_RESULT"></h3></div>
+    <div class="col-md-6 col-md-offset-3"><h5 id="GAME_PGN"></h5></div>
+ </div>
+
+<div id="MULTIPLE_LOGINS_WARNING" style="display:none">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="well well-lg">
+                <h3 class="text-center">Multiple logins detected! Please close this tab/window.</h3>
+            </div>
+        </div>
+    </div>
+</div>

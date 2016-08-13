@@ -1,0 +1,69 @@
+All the events have to be written keeping in mind the data-structure invalidations
+caused by the following events.
+
+
+[ASSUMPION - Sequential model of execution - events are not processed simultaneously]
+node.js is single-process single threaded so sequential model is valid.
+
+1. We should not care much about a non-participant logging-in/logging-out.
+
+2. When an unpaired participant logs out
+   Case 1. Logout event happens prior the pairing (logout-time expired).
+   Case 2. He/she is being paired when this happens (the logut-timer becomes on).
+
+3. Log-in/log-out during the gameplay
+
+Players P1 and P2 are playing against each other
+
+[P1 can log out when...]
+
+case 1. P2 is online
+    case 1.1. P2 goes offline during logout-timer interval of P1. This case transposes to the following
+              case 2 but for player P2.
+    case 1.2. P2 remains online throughout
+            
+case 2. P2 is logged out and his logout-timer is ON (not expired yet)
+
+?? case 3. P2 has logged out and his logout-timer has expired (P1 should have been granted a victory earlier)
+           so this scenario need not be handled.
+           * It is difficult to handle scenarios such as P2's logout-timer expires at the same time when P1 log's out.
+             So there was no time to grant P1 victory.
+
+[P1 can log-back in when...]
+case 1. His/her logout-timer hasn't expired.
+case 2. After the expiry of the logout-timer.
+        * again the sequential model of execution gurantees that timer-expiry and logout won't be
+          processed simultaneously.
+
+
+[MISC. points]
+1. Server to send state_restore message to the clients registered in the tournament (to re-highlight the [join] button)
+2. Does the newly registered players fire player_logged_on event? ... He/she should.
+   Yes, it is fired when the player lands up on the Arena page.
+
+[BUGS]   
+1. Forced login after the game is over (clicking on the Join/Leave button has no net effect).
+
+
+-------------------------------------------------------------------------------------------
+[Countdown timers]
+
+1. Pass a timer object with make_move event
+
+2. Update the object in the "move" event.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   

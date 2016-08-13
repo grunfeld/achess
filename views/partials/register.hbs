@@ -1,0 +1,16 @@
+<form role="form" class="form-signup" method="post" action="/register">
+    <label for="playerHandle" class="sr-only">Handle</label>
+    <input type="text" class="form-control" id="playerHandle" name="handle" placeholder="Handle" autofocus required>
+
+    <label for="playerEmail" class="sr-only">Email</label>
+    <input type="email" class="form-control" id="playerEmail" name="email" placeholder="Email" required>
+
+    <label for="playerPassword" class="sr-only">Password</label>
+    <input type="password" class="form-control" id="playerPassword" name="password" placeholder="Password" required>
+
+    <label for="playerPassword2" class="sr-only">Password2</label>
+    <input type="password" class="form-control" id="playerPassword2" name="password2" placeholder="Re-type password" required>
+    
+    <button type="submit" class="btn btn-lg btn-default btn-block">Register</button>
+</form>
+<p class="text-center">Already a member? login <a href="/login">here</a></p>
