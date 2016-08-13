@@ -66,7 +66,7 @@ require('./config/error_handlers.js')(app);
 //-----------------------------------------------------------------------------
 
 var port   = process.env.PORT || 3333;
-var server = require('http').createServer(app).listen(3333);
+var server = require('http').createServer(app).listen(port);
 console.log('Server running on port 3333');
 require('./config/socket.js')(server);
 
