@@ -24,7 +24,7 @@ function ReturnUndefined() {
 }
 
 $(document).ready(function() {
-    var socket = io.connect('http://localhost:3333');
+    var socket = io.connect('https://peaceful-taiga-36791.herokuapp.com');
     var player = "";
     if ($('#ONLINE_PLAYER').length) {
         player = $('#ONLINE_PLAYER').data("handle");
