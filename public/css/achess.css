@@ -97,6 +97,13 @@ body {
     color: darkgray;    
 }
 
+.footer {
+  padding: 10px;
+  position: absolute;
+  bottom: 0;
+  height: 70px;
+}
+
 /* Darker scrollbars on Chrome */
 ::-webkit-scrollbar {
     width: 8px;
