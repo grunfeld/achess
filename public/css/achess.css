@@ -30,13 +30,18 @@ html * {
   font-family:Roboto Slab,Roboto,Calibri,sans-serif;
 }
 
+body {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
 #GAME_PGN, #ARENA_LEADERBOARD ul li {
     font-family:Roboto Mono,Consolas,monospace;
 }
 
-body {
-  padding-top: 20px;
-  padding-bottom: 20px;
+#ONGOING_MATCHES ul {
+    padding-left: 0px;
+    font-size: 18px;
 }
 
 /* Sign-in/up form styles */

@@ -240,7 +240,7 @@ module.exports = function(server) {
         // Only admin can trigger this event by pressing the button on the admin console.
         socket.on("start_tournament", function(data) {
             if (tournament_state === "not_in_progress") {
-                console.log("Starting the tournament");
+                //console.log("Starting the tournament");
                 tournament_state      = "in_progress";
                 tournament_start_time = Date.now();
                 var duration          = 7200000; // = 2 hours
