@@ -24,7 +24,9 @@ function ReturnUndefined() {
 }
 
 $(document).ready(function() {
+    //var socket = io.connect('http://localhost:3333');
     var socket = io.connect('https://peaceful-taiga-36791.herokuapp.com');
+
     var player = "";
     if ($('#ONLINE_PLAYER').length) {
         player = $('#ONLINE_PLAYER').data("handle");
@@ -37,6 +39,7 @@ $(document).ready(function() {
         $('#START_TOURNAMENT_BTN').addClass("disabled"); // Can create only 1 tournament at a time
         socket.emit("start_tournament", {});
     });
+    
     // Fired after tournament_clock (socket.js) expires
     socket.on("tournament_ended", function(data) {
         $('#START_TOURNAMENT_BTN').removeClass("disabled");
@@ -66,6 +69,7 @@ $(document).ready(function() {
         if (typeof(Storage) !== "undefined")
             localStorage.setItem("TournamentState", "Ended");
     });
+
     socket.on("tournament_countdown_timer", function(time_left) { // Fired every 1 seconds once
         $('#TOURNAMENT_NOTIFICATION').show();                     // tournament begins
         $('#TOURNAMENT_BANNER').html("5+5 tournament is on!");
@@ -112,7 +116,7 @@ $(document).ready(function() {
         for (var player in perf)
             sortable.push([player, perf[player].points]);
         sortable.sort(function(a, b) {
-                        return b[1] - a[1]
+                        return b[1] - a[1];
                       });
         return sortable;
     };
