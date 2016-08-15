@@ -36,8 +36,16 @@ $(document).ready(function() {
     // [Tournament related events (player not involved)] ------------------------------
     // This event comes from the admin login
     $('#START_TOURNAMENT_BTN').click(function() {
+        
+        var duration  = $('#DURATION_SEL').find(":selected").val();
+        var base_time = $('#BASE_TIME_SEL').find(":selected").val(); 
+        var increment = $('#INCREMENT_SEL').find(":selected").val();
+        
         $('#START_TOURNAMENT_BTN').addClass("disabled"); // Can create only 1 tournament at a time
-        socket.emit("start_tournament", {});
+        socket.emit("start_tournament", { duration : duration,
+                                          base_time: base_time,
+                                          increment: increment
+                                        });
     });
     
     // Fired after tournament_clock (socket.js) expires
@@ -72,7 +80,7 @@ $(document).ready(function() {
 
     socket.on("tournament_countdown_timer", function(time_left) { // Fired every 1 seconds once
         $('#TOURNAMENT_NOTIFICATION').show();                     // tournament begins
-        $('#TOURNAMENT_BANNER').html("5+5 tournament is on!");
+        $('#TOURNAMENT_BANNER').html("Tournament is on!");
         $('#TOURNAMENT_COUNTDOWN_CLOCK').html(msToTime(time_left));
         if (typeof(Storage) !== "undefined")
             localStorage.setItem("TournamentState", "ON");

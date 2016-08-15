@@ -1,3 +1,29 @@
-<div>
-    <a href="#" id="START_TOURNAMENT_BTN" role="button" class="btn btn-danger btn-lg" value="not_started">Start tournament!</a>
-</div>
+<form role="form" id="tournament-form" class="form-signin">
+    <div class="form-group">
+    <label for="DURATION_SEL">Duration</label>
+    <select id="DURATION_SEL" class="form-control" name="tournamentDuration">
+        <option value="1800000">30 minutes</option>
+        <option value="3600000">1 hour</option>
+        <option value="7200000" selected>2 hours</option>
+        <option value="10800000">3 hours</option>
+    </select>
+    <br>
+    <label for="BASE_TIME_SEL">Base time</label>
+    <select id="BASE_TIME_SEL" class="form-control" name="baseTime">
+        <option value="60000">1 minute</option>        
+        <option value="180000">3 minutes</option>
+        <option value="300000" selected>5 minutes</option>
+        <option value="900000">15 minutes</option>
+    </select>
+    <br>
+    <label for="INCREMENT_SEL">Increment</label>
+    <select id="INCREMENT_SEL" class="form-control" name="increment">
+        <option value="0">No increment</option>        
+        <option value="2000">2 seconds</option>
+        <option value="5000" selected>5 seconds</option>
+        <option value="10000">10 seconds</option>
+    </select>
+    <div class="spacer20"></div>
+    <button id="START_TOURNAMENT_BTN" class="btn btn-lg btn-danger btn-block" type="button" role="button" value="not_started">Start tournament!</button>
+    </div>
+</form>

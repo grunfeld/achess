@@ -1,6 +1,6 @@
 // TODO
 // 0. Implement tie-breaker
-// 1. admin dashboard, tournament settings should be populated from there.
+// 1. DONE - admin dashboard, tournament settings should be populated from there.
 // 2. Update player ratings after the tournament (glicko2)
 // 3. Premoves
 // 4. DB search and information retrieval (elastisearch)
@@ -18,6 +18,8 @@ module.exports = function(server) {
     var tournament_state       = "not_in_progress"; // in_progress
     var tournament_start_time  = Date.now();
     var tournament_end_time    = Date.now();
+    var tournament_base_time   = 300000;           // Default (overwritten by start_tournament event)
+    var tournament_increment   = 5000;             // Default (overwritten by start_tournament event)
     var tournament_timecontrol = "300+5";
     var tournament_clock;                          // Countdown timer that lasts till the end of the tournament
     var tournament_countdown_timer;                // Interval-counter that ticks every 1 second to show (the clients)
@@ -81,9 +83,8 @@ module.exports = function(server) {
         var game_id                   = Math.floor((Math.random() * 1000000000) + 1);
         chess_game_objs[game_id]      = chess;
         timing_data[game_id]          = {};
-        // TODO parse tournament_timecontrol string here to obtain time_left and bonus
-        timing_data[game_id][player1] = { time_left: 300000, bonus: 5000, thinking_started_at: Date.now() };
-        timing_data[game_id][player2] = { time_left: 300000, bonus: 5000, thinking_started_at: Date.now() };
+        timing_data[game_id][player1] = { time_left: tournament_base_time, bonus: tournament_increment, thinking_started_at: Date.now() };
+        timing_data[game_id][player2] = { time_left: tournament_base_time, bonus: tournament_increment, thinking_started_at: Date.now() };
         if (_.has(player_vs_socket, player1)) {
             io.sockets.connected[player_vs_socket[player1]].emit("make_move", { color: p1_color, pgn: pgn, timer: timing_data[game_id]});
         }
@@ -240,18 +241,21 @@ module.exports = function(server) {
         // Only admin can trigger this event by pressing the button on the admin console.
         socket.on("start_tournament", function(data) {
             if (tournament_state === "not_in_progress") {
-                //console.log("Starting the tournament");
-                tournament_state      = "in_progress";
-                tournament_start_time = Date.now();
-                var duration          = 7200000; // = 2 hours
-                tournament_end_time   = tournament_start_time + duration;
-                tournament_clock      = setTimeout(function() {
-                                          //console.log("Tournament ended.");
-                                          tournament_state = "not_in_progress";
-                                          clearInterval(tournament_countdown_timer);
-                                          //clearInterval(tournament_pairing_clock);
-                                          var results = EndOfTournament();
-                                          io.sockets.emit('tournament_ended', results);  
+                //console.log("Starting the tournament T = " + data.duration + ' ' + data.base_time + '+' + data.increment);
+                tournament_state       = "in_progress";
+                tournament_start_time  = Date.now();
+                duration               = parseInt(data.duration);
+                tournament_base_time   = parseInt(data.base_time);
+                tournament_increment   = parseInt(data.increment);
+                tournament_end_time    = tournament_start_time + duration;
+                tournament_timecontrol = (tournament_base_time/1000).toString() + '+' + (tournament_increment/1000).toString();
+                tournament_clock       = setTimeout(function() {
+                                            //console.log("Tournament ended.");
+                                            tournament_state = "not_in_progress";
+                                            clearInterval(tournament_countdown_timer);
+                                            //clearInterval(tournament_pairing_clock);
+                                            var results = EndOfTournament();
+                                            io.sockets.emit('tournament_ended', results);  
                                         }, duration);
 
                 // Updates time on the leaderboard page after every 1 second.
