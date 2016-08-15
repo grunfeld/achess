@@ -1,0 +1,7 @@
+{
+    "jscodehints.detectedExclusions": [
+        "C:/Users/avaidya/Desktop/OTW/chess/heroku_deploy/achess/public/bower_components/moment/locale/ar-sa.js",
+        "C:/Users/avaidya/Desktop/OTW/chess/heroku_deploy/achess/config/socket.js",
+        "C:/Users/avaidya/Desktop/OTW/chess/heroku_deploy/achess/public/bower_components/moment/locale/az.js"
+    ]
+}
