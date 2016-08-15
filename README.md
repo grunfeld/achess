@@ -4,7 +4,7 @@ In this design the server acts as a "middleman" thereby simplfying state-restora
 the player disconnects --> reconnects.
 
 ## Live demo
-Project was deployed directly from github with Heroku here(https://peaceful-taiga-36791.herokuapp.com).
+Project was deployed directly from github with Heroku [here](https://peaceful-taiga-36791.herokuapp.com).
 
 ## Build instructions
 
