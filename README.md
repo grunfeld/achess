@@ -32,7 +32,7 @@ $ node achess.js
 
 ### Ubuntu
 
-1. Install MongoDB
+1. [Install MongoDB](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/)
 2. Install node
 3. Install npm
 4. Install bower
