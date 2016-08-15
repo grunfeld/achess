@@ -3,6 +3,9 @@ Chess tournament (Arena format) organizer using Node.js, Mongodb and Express.
 In this design the server acts as a "middleman" thereby simplfying state-restoration when
 the player disconnects --> reconnects.
 
+## Live demo
+Project was deployed directly from github with Heroku here(https://peaceful-taiga-36791.herokuapp.com).
+
 ## Build instructions
 
 ### Windows
@@ -14,11 +17,14 @@ the player disconnects --> reconnects.
 4. Install bower through npm
 
 ```sh
-Start mongod.exe from the command line prompt (or Powershell)
+$ cd "C:\Program Files\MongoDB\Server\3.2\bin"  (the path will change depending upon your installation folder and version)
+$ mongod.exe
 ```
-And then from a different command prompt, go inside the achess folder and...
+You may also want to install git for easy checkout. And then from a different command-prompt checkout, build and run the project in a following way,
 
 ```sh
+$ git clone https://github.com/grunfeld/achess.git  # or download and extract the achess folder from github
+$ cd achess
 $ npm install
 $ bower install
 $ node achess.js
@@ -43,4 +49,4 @@ $ node achess.js
 3. [gamehub.io](https://github.com/benas/gamehub.io)
 4. [realchess](https://github.com/dwcares/realchess)
 
-The project was inspired by [lichess.org](https://en.lichess.org/)'s tournament format. Great website, I am big fan, you will love it too. Do become their patron!
+The project was inspired by [lichess.org](https://en.lichess.org/)'s tournament format.
