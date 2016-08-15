@@ -33,14 +33,23 @@ $ node achess.js
 ### Ubuntu
 
 1. [Install MongoDB](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/)
-2. Install node
-3. Install npm
-4. Install bower
+2. [Install node and npm](http://www.hostingadvice.com/how-to/install-nodejs-ubuntu-14-04/#node-version-manager)
+3. [Install Bower through npm](https://syntaxsugar.github.io/posts/2014/05/how-to-install-bower-on-ubuntu-1404-lts/)
 
+MongoDB runs as a service in the background (sudo service mongodb start). The build instructions for the web-app
+are then same as those for the Windows.
+
+```sh
+$ git clone https://github.com/grunfeld/achess.git  # or download and extract the achess folder from github
+$ cd achess
+$ npm install
+$ bower install
+$ node achess.js
+```
 ## How to play?
 1. Server starts at http://localhost:3333/
-2. First create an account by the name "admin". Logout. Only admin can start the tournament.
-3. The next time when you log-on as an admin, you will see a button to start the tournament. Click on that and logout.
+2. First create an account by the name "admin" and logout. Only admin can start the tournament.
+3. The next time when you log-in as an admin, you will see a red button to start the tournament. Click on that and logout.
 4. Create a bunch of player accounts. These players can now participate in the tournament.
 
 ## Thanks!
