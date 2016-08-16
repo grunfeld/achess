@@ -1,5 +1,6 @@
 {
     "achess": {
+        "db"    : "mongodb://abhijeetnvaidya:grunfeld@ds153705.mlab.com:53705/achess",
         "db_dev": "mongodb://localhost/achess"
     }
 }
