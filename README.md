@@ -53,7 +53,7 @@ $ node achess.js
 4. Create a bunch of player accounts. These players can now participate in the tournament.
 
 ## Thanks!
-1. [chess.js](http://github.com)
+1. [chess.js](https://github.com/jhlywa/chess.js)
 2. [chessboard.js](http://chessboardjs.com/)
 3. [gamehub.io](https://github.com/benas/gamehub.io)
 4. [realchess](https://github.com/dwcares/realchess)
