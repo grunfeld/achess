@@ -57,23 +57,36 @@ $(document).ready(function() {
         $('#TOURNAMENT_RESULT').show();
         $('#ARENA').show();
         $('#FIRST').hide();
+        $('#FIRST_TROPHY').hide();
         $('#SECOND').hide();
+        $('#SECOND_TROPHY').hide();
         $('#THIRD').hide();
+        $('#THIRD_TROPHY').hide();
         var winners = data.winners;
         if (winners.length > 0) {
             $('#FIRST').html(winners[0]);
             $('#FIRST').show();
+            $('#FIRST_TROPHY').show();
             if (winners.length > 1) {
                 $('#SECOND').html(winners[1]);
                 $('#SECOND').show();
+                $('#SECOND_TROPHY').show();
                 if (winners.length > 2) {
                     $('#THIRD').html(winners[2]);
                     $('#THIRD').show();
+                    $('#THIRD_TROPHY').show();
                 }
             }
         }
-        var pgn_filepath = data.pgn_file;
-        $('#PGN_DOWNLOAD').attr('href', pgn_filepath);
+        
+        $('#PGN_HIDDEN_FORM').submit( function(eventObj) {
+            $('<input />').attr('type', 'hidden')
+            .attr('name', "pgns")
+            .attr('value', data.pgns)
+            .appendTo('#PGN_HIDDEN_FORM');
+            return true;
+        });
+
         if (typeof(Storage) !== "undefined")
             localStorage.setItem("TournamentState", "Ended");
     });
@@ -180,15 +193,15 @@ $(document).ready(function() {
             $('#SELF_CLOCK').removeClass("inactive_timer");
             $('#SELF_CLOCK').addClass("active_timer");
             countdown = setInterval(function() {
-                my_time_left -= 1000;
-                if (my_time_left < 0) {
-                    my_time_left = 0;
-                    socket.emit("timeout", {});
-                    clearInterval(countdown);
-                    countdown = ReturnUndefined();
-                }
-                $('#SELF_CLOCK').html(msToMins(my_time_left));
-            }, 1000);
+                            my_time_left -= 1000;
+                            if (my_time_left < 0) {
+                                my_time_left = 0;
+                                socket.emit("timeout", {});
+                                clearInterval(countdown);
+                                countdown = ReturnUndefined();
+                            }
+                            $('#SELF_CLOCK').html(msToMins(my_time_left));
+                        }, 1000);
         } else {
             $('#SELF_CLOCK').html(msToMins(my_time_left));
             $('#SELF_CLOCK').removeClass("active_timer");
@@ -196,13 +209,13 @@ $(document).ready(function() {
             $('#OPPN_CLOCK').removeClass("inactive_timer");
             $('#OPPN_CLOCK').addClass("active_timer");
             countdown = setInterval(function() {
-                his_time_left -= 1000;
-                if (his_time_left < 0)
-                    his_time_left = 0; // Don't emit "timeout" event for the opponent. If opponent is offline he will
-                                       // be judged lost after logout-timer expires. If he comes back online, countdown
-                                       // timer at his end will take care of emitting timeout event.
-                $('#OPPN_CLOCK').html(msToMins(his_time_left));
-            }, 1000);            
+                            his_time_left -= 1000;
+                            if (his_time_left < 0)
+                                his_time_left = 0;  // Don't emit "timeout" event for the opponent. If opponent is offline he will
+                                                    // be judged lost after logout-timer expires. If he comes back online, countdown
+                                                    // timer at his end will take care of emitting the timeout event.
+                            $('#OPPN_CLOCK').html(msToMins(his_time_left));
+                        }, 1000);            
         }
 
         var board,

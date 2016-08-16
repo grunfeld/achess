@@ -23,16 +23,24 @@
     <div class="spacer30"></div>
     <div class="row">
         <div class="col-sm-8 col-sm-offset-4">
-            <h2><i class="fa fa-trophy" aria-hidden="true" style="color:#FFD700"></i>&nbsp;&nbsp;
+            <h2 id="FIRST_TROPHY"><i class="fa fa-trophy" aria-hidden="true" style="color:#FFD700"></i>&nbsp;&nbsp;
                 <span id="FIRST"></span></h2>
-            <h2><i class="fa fa-trophy" aria-hidden="true" style="color:#C0C0C0"></i>&nbsp;&nbsp;
+            <h2 id="SECOND_TROPHY"><i class="fa fa-trophy" aria-hidden="true" style="color:#C0C0C0"></i>&nbsp;&nbsp;
                 <span id="SECOND"></span></h2>
-            <h2><i class="fa fa-trophy" aria-hidden="true" style="color:#CD7F32"></i>&nbsp;&nbsp;
+            <h2 id="THIRD_TROPHY"><i class="fa fa-trophy" aria-hidden="true" style="color:#CD7F32"></i>&nbsp;&nbsp;
                 <span id="THIRD"></span></h2>
             <h1>Congratulations!</h1>
             <div class="spacer20"></div>
-            <h4><a id="PGN_DOWNLOAD" href="#"><i class="fa fa-download" aria-hidden="true"></i> Download games</a><small> (Copy link location and use the url)</small></h4>
-            <p>Leaderboard has been frozen; outcomes of the ongoing games won't affect it.</p>
+            <div class="row">
+                <div class="col-sm-4">
+                    <form id="PGN_HIDDEN_FORM" action="/dpgn" method="post">
+                        <button class="btn btn-lg btn-default btn-block" target="_blank" type="submit"><i class="fa fa-download" aria-hidden="true"></i> Download games</button>
+                    </form>
+                </div>
+            </div>
+            <div class="spacer10"></div>
+            <p>Leaderboard frozen; outcomes of the ongoing games won't affect it.</p>
+            <div class="spacer10"></div>
             <p class="lead">Refresh the page to resume the game.</p>
         </div>
     </div>

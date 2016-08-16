@@ -200,18 +200,6 @@ module.exports = function(server) {
             });
         }
 
-        var fs       = require('fs');
-        var path     = require('path');
-        var tour_id  = util.RandomString(3);
-        var filepath = path.resolve(__dirname + "/../public/data/" + tour_id + ".pgn");
-        fs.writeFile(filepath, all_pgns, function(err) {
-            if (err) {
-                //console.log(err)
-                return;
-            }
-            //console.log("The file was saved!");
-        });
-
         // Store tournament in the database
         var t = new TournamentDB({
             name          : util.RandomString(8), // => made up of 8 iterations of random substring slices
@@ -231,7 +219,7 @@ module.exports = function(server) {
         });
         
         // Put the download link for this file on to the Arena page using the return value
-        return {pgn_file: "file:///" + filepath,
+        return {pgns: all_pgns,
                 winners : standings
                };
     };
@@ -508,7 +496,7 @@ module.exports = function(server) {
             var game        = chess_game_objs[game_id];
             var color       = current_pairs[player].color;
             var result      = (color === "white") ? "0-1" : "1-0";
-            var description = opponent + " won! " + player + " (timeout)";
+            var description = opponent + " won! " + player + " timed out.";
             UpdatePerformance(player, 0);
             UpdatePerformance(opponent, 2);
             delete current_pairs[player];
