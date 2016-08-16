@@ -36,6 +36,17 @@ module.exports = function(server) {
     var player_vs_logout_timer = {}; // 1-minute countdown timer object stored against the player who was in a
                                      // game at the time of logout.
     var timing_data            = {}; // Holds game-timer info against game-ids.
+    
+    var Initialize = function () {
+        current_pairs          = {};
+        chess_game_objs        = {};
+        finished_games_ids     = [];
+        _.forOwn(player_performance, function(value, key) {
+            player_performance[key] = { points: 0, streak: 0, results: [] }
+        });
+        player_vs_logout_timer = {};
+        timing_data            = {};
+    };
 
     var GeneratePairings = function () {
         if (tournament_state === "not_in_progress")
@@ -229,6 +240,7 @@ module.exports = function(server) {
         // Only admin can trigger this event by pressing the button on the admin console.
         socket.on("start_tournament", function(data) {
             if (tournament_state === "not_in_progress") {
+                Initialize();
                 //console.log("Starting the tournament T = " + data.duration + ' ' + data.base_time + '+' + data.increment);
                 tournament_state       = "in_progress";
                 tournament_start_time  = Date.now();
