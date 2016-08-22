@@ -59,7 +59,7 @@ app.use('/logout',   require('./routes/logout'));
 
 
 // The 404 Route (ALWAYS Keep this as the last route)
-app.get('*', function(req, res){
+app.get('*', function(req, res) {
     res.status(404).send('404: Page not Found');
 });
 

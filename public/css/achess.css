@@ -26,6 +26,13 @@
        url('/fonts/Roboto-Mono-500/Roboto-Mono-500.svg#RobotoMono') format('svg');
 }
 
+@font-face {
+    font-family: 'Digital';
+    font-weight: normal;
+    font-style: normal;
+    src: url('/fonts/Digital/Digital.ttf') format('truetype');
+}
+
 html * {
   font-family:Roboto Slab,Roboto,Calibri,sans-serif;
 }
@@ -91,7 +98,7 @@ body {
 .spacer40 { height: 40px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
 
 .move_timer {
-    font-family:Roboto Mono,Consolas,monospace;
+    font-family:Digital,Roboto Mono,Consolas,monospace;
     font-size: 40px;
     font-weight: bold;
 }

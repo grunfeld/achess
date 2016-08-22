@@ -1,13 +1,5 @@
 {
     "jscodehints.detectedExclusions": [
-        "C:/Users/avaidya/Desktop/OTW/chess/heroku_deploy/achess/public/bower_components/lodash/test/saucelabs.js",
-        "C:/Users/avaidya/Desktop/OTW/chess/heroku_deploy/achess/public/bower_components/lodash/fp/_baseConvert.js",
-        "C:/Users/avaidya/Desktop/OTW/chess/heroku_deploy/achess/public/bower_components/lodash/fp/_mapping.js",
-        "C:/Users/avaidya/Desktop/OTW/chess/heroku_deploy/achess/public/bower_components/moment/locale/ar-ma.js",
-        "C:/Users/avaidya/Desktop/OTW/chess/heroku_deploy/achess/routes/logout.js",
-        "C:/Users/avaidya/Desktop/OTW/chess/heroku_deploy/achess/config/socket.js",
-        "C:/Users/avaidya/Desktop/OTW/chess/heroku_deploy/achess/public/bower_components/jquery/src/traversing/findFilter.js",
-        "C:/Users/avaidya/Desktop/OTW/chess/heroku_deploy/achess/public/bower_components/jquery/src/traversing/../selector.js",
-        "C:/Users/avaidya/Desktop/OTW/chess/heroku_deploy/achess/public/bower_components/jquery/src/./selector-sizzle.js"
+        "C:/Users/avaidya/Desktop/OTW/chess/heroku_deploy/achess/public/bower_components/lodash/test/remove.js"
     ]
 }
