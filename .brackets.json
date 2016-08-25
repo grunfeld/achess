@@ -1,5 +1,9 @@
 {
     "jscodehints.detectedExclusions": [
-        "C:/Users/avaidya/Desktop/OTW/chess/heroku_deploy/achess/public/bower_components/lodash/test/remove.js"
+        "C:/Users/avaidya/Desktop/OTW/chess/heroku_deploy/achess/public/bower_components/lodash/test/remove.js",
+        "C:/Users/avaidya/Desktop/OTW/chess/heroku_deploy/achess/public/bower_components/jquery/src/traversing/findFilter.js",
+        "C:/Users/avaidya/Desktop/OTW/chess/heroku_deploy/achess/public/bower_components/lodash/fp/_mapping.js",
+        "C:/Users/avaidya/Desktop/OTW/chess/heroku_deploy/achess/achess.js",
+        "C:/Users/avaidya/Desktop/OTW/chess/heroku_deploy/achess/public/bower_components/moment/locale/af.js"
     ]
 }
