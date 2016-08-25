@@ -11,7 +11,7 @@
 module.exports = function(server) {
     //var debug  = require('debug');
     var _      = require('lodash');
-    var moment = require('moment');
+    var moment = require('moment-timezone');
     var io     = require('socket.io').listen(server);
     var Chess  = require('chess.js').Chess;
 
@@ -85,9 +85,9 @@ module.exports = function(server) {
             p2_color = "white";            
         }
         if (p1_color === "white") {
-            chess.header('Event', 'Chess Arena', 'Site', 'online', 'Date', moment().format('lll'), 'Round', '?', 'White', player1, 'Black', player2, 'TimeControl', tournament_timecontrol);
+            chess.header('Event', 'Chess Arena', 'Site', 'online', 'Date', moment().tz('Asia/Kolkata').format('lll'), 'Round', '?', 'White', player1, 'Black', player2, 'TimeControl', tournament_timecontrol);
         } else {
-            chess.header('Event', 'Chess Arena', 'Site', 'online', 'Date', moment().format('lll'), 'Round', '?', 'White', player2, 'Black', player1, 'TimeControl', tournament_timecontrol);
+            chess.header('Event', 'Chess Arena', 'Site', 'online', 'Date', moment().tz('Asia/Kolkata').format('lll'), 'Round', '?', 'White', player2, 'Black', player1, 'TimeControl', tournament_timecontrol);
         }
 
         var pgn                       = chess.pgn();

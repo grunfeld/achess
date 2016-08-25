@@ -284,13 +284,14 @@ $(document).ready(function() {
                 moveColor = 'Black';
             }
             if (game.in_checkmate() === true) {
-                status = 'Game over, ' + moveColor + ' is checkmated!';
+                status = moveColor + ' checkmated';
             } else if (game.in_draw() === true) {
-                status = 'Game over, drawn position';
+                status = 'Game drawn';
             } else {
-                status = moveColor + ' to move';
                 if (game.in_check() === true) {
-                    status += ', ' + moveColor + ' is in check';
+                    status = moveColor + ' is in check';
+                } else {
+                    status = moveColor + ' to move';    
                 }
             }
             statusEl.html(status);
