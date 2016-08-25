@@ -24,8 +24,8 @@ function ReturnUndefined() {
 }
 
 $(document).ready(function() {
-    var socket = io.connect('http://localhost:3333');
-    //var socket = io.connect('https://chess-arena.herokuapp.com');
+    //var socket = io.connect('http://localhost:3333');
+    var socket = io.connect('https://chess-arena.herokuapp.com');
 
     var player = "";
     if ($('#ONLINE_PLAYER').length) {
