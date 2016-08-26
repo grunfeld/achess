@@ -110,6 +110,7 @@ $(document).ready(function() {
 
     var game_over_timer = ReturnUndefined();
     $('#JOIN_TOURNAMENT_BTN').click(function() {
+        $(this).blur();
         var joined = $(this).attr("value");
         if (joined == "withdrew") {
             $(this).attr("value", "joined");
@@ -362,11 +363,13 @@ $(document).ready(function() {
     });
     
     $('#RESIGN_BTN').click(function() {
+        $(this).blur();
         socket.emit("resign", {});
     });
 
     // DRAW functionality is similar to the TAKEBACK functionality
     $('#DRAW_BTN').click(function() {
+        $(this).blur();
         if ($(this).hasClass('btn-default')) {
             socket.emit("draw_offered", {});
             $('#CHAT').append("Draw offer sent.<br>");            
@@ -387,6 +390,7 @@ $(document).ready(function() {
 
     // TAKEBACK functionality is similar to the DRAW functionality
     $('#TAKEBACK_BTN').click(function() {
+        $(this).blur();
         if ($(this).hasClass('btn-default')) {
             socket.emit("takeback_proposed", {});
             $('#CHAT').append("Takeback proposal sent.<br>");
@@ -406,20 +410,25 @@ $(document).ready(function() {
     });
 
     $('#ADD_TIME_BTN').click(function() {
-       socket.emit("give_bonus_time", {});
+        $(this).blur();
+        socket.emit("give_bonus_time", {});
     });
     
     // Chat section
     $('#WELL_PLAYED').click(function() {
+        $(this).blur();
         socket.emit("chat", { msg: "Well played!" });
     });
     $('#ALL_THE_BEST').click(function() {
+        $(this).blur();
         socket.emit("chat", { msg: "All the best!" });
     });
     $('#THANKS').click(function() {
+        $(this).blur();
         socket.emit("chat", { msg: "Thanks!" });
     });
     $('#YOU_TOO').click(function() {
+        $(this).blur();
         socket.emit("chat", { msg: "You, too!" });
     });
     socket.on("chat", function(data) {
