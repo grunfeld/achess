@@ -5,7 +5,7 @@ var PlayerSchema = mongoose.Schema({
     handle     : String,
     email      : String,
     rating_obj : {
-                    rating : {type: Number, default: 1500 },
+                    rating : {type: Number, default: 1500},
                     rd     : {type: Number, default: 200},
                     vol    : {type: Number, default: 0.06}
                  },

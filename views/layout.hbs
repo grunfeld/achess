@@ -26,8 +26,10 @@
                 {{/if}}
                 <h3>Chess Arena&nbsp;&nbsp;<a target="_blank" href="https://github.com/grunfeld/achess"><i class="fa fa-github" aria-hidden="true">&nbsp;</i></a>
                     {{#if player}}
-                    <span id="ONLINE_PLAYER" data-handle="{{ player.handle }}" style="color:lightgreen"> &nbsp;&nbsp;[&nbsp;{{player.handle}}&nbsp;]
-                    </span>
+                    <span id="ONLINE_PLAYER" data-handle="{{player.handle}}" style="color:lightgreen">&nbsp;&nbsp;[&nbsp;{{player.handle}}&nbsp;]</span>
+                    {{/if}}
+                    {{#if player_rating}}
+                    <span id="PLAYER_RATING" data-rating="{{player_rating}}" style="color:lightblue">&nbsp;{{player_rating}}&nbsp;&plusmn;&nbsp;{{player_rd}}</span>
                     {{/if}}
                 </h3>
             </div>

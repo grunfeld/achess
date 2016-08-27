@@ -1,7 +1,7 @@
 // TODO
 // 0. Implement tie-breaker
 // 1. DONE - admin dashboard, tournament settings should be populated from there.
-// 2. Update player ratings after the tournament (glicko2)
+// 2. DONE - Update player ratings after the tournament (glicko2)
 // 3. Premoves
 // 4. DB search and information retrieval (elastisearch)
 // 5. [optional] First pairings should be created based on the player ratings (?).
@@ -10,10 +10,14 @@
 
 module.exports = function(server) {
     //var debug  = require('debug');
-    var _      = require('lodash');
-    var moment = require('moment-timezone');
-    var io     = require('socket.io').listen(server);
-    var Chess  = require('chess.js').Chess;
+    var _        = require('lodash');
+    var moment   = require('moment-timezone');
+    var io       = require('socket.io').listen(server);
+    var Chess    = require('chess.js').Chess;
+    var mongoose = require('mongoose');
+    var glicko2  = require('glicko2');
+    var settings = { tau : 0.5, rating : 1500, rd : 200, vol : 0.06 };
+    var ranking  = new glicko2.Glicko2(settings);
 
     var tournament_state       = "not_in_progress"; // in_progress
     var tournament_start_time  = Date.now();
@@ -156,59 +160,84 @@ module.exports = function(server) {
         return standings;
     };
     
+    var UpdateGlicko2Ratings = function(ratings, matches) {
+        if (matches.length < finished_games_ids.length)
+            return;
+        ranking.updateRatings(matches);
+        var PlayerDB = mongoose.model('PlayerDB');
+        //console.log("Updated ratings after " + matches.length + " matches.");
+        _.forEach(ratings, function(r, p) {
+            //console.log(p + ": " + r.getRating() + " " + r.getRd() + " " + r.getVol());
+            PlayerDB.findOneAndUpdate({handle: p}, { rating_obj: { rating: r.getRating(),
+                                                                   rd    : r.getRd(),
+                                                                   vol   : r.getVol()
+                                                                 } }, {}, function (err, p_db) {
+                if (err) {
+                } else{
+                    //console.log("Updated rating of " + p + " in the DB.");
+                }
+            });
+        });
+    };
+    
+    
     var EndOfTournament = function() {
-        var mongoose     = require('mongoose');
         var PlayerDB     = mongoose.model('PlayerDB');
         var GameDB       = mongoose.model('GameDB');
         var TournamentDB = mongoose.model('TournamentDB');
         var util         = require('../config/util.js');
-        
+        var ratings      = {};
+        var matches      = [];
         //console.log("Tournament ended!");
         var standings = FindWinners(player_performance);
-
-        // Calculate new ratings of the players
-        /*  // Update ratings at the end of the tournament
-        var glicko2 = require('glicko2');
-        var glicko2_settings = {tau : 0.5,
-                                rating : 1500,
-                                rd : 200,
-                                vol : 0.06
-                                };
-        var ranking = new glicko2.Glicko2(glicko2_settings);
-        */
-        // TODO - Update player stats in the database
         
         // Store the tournament-matches in the database
         var all_pgns = "";
         for (var i = 0; i < finished_games_ids.length; i++) {
-            var game        = chess_game_objs[finished_games_ids[i]];
-            var game_header = game.header();
-            var pgn_html    = game.pgn({ max_width: 5, newline_char: '<br />' });
-            var pgn_nl      = game.pgn({ max_width: 5, newline_char: '\n' });
-            all_pgns       += pgn_nl + "\n\n";
-            var wp          = game_header.White;
-            var bp          = game_header.Black;
-            PlayerDB.findOne({handle: wp}, function(err, p1) {
-                PlayerDB.findOne({handle: bp}, function(err, p2) {
-                    var g = new GameDB({
-                                id          : util.RandomString(8), // => made up of 8 iterations of random substring slices
-                                white       : p1,
-                                black       : p2,
-                                timecontrol : game_header.TimeControl,
-                                pgn         : pgn_html,
-                                result      : game_header.Result,
-                                date        : game_header.Date,
-                                rated       : true
-                            });
-                    g.save(function(err) {
-                        if (err) {
-                            next(err);
-                        } else {
-                            //console.log("Game successfully saved in the DB.");
+            var game   = chess_game_objs[finished_games_ids[i]];
+            var pgn_nl = game.pgn({ max_width: 5, newline_char: '\n' });
+            all_pgns  += pgn_nl + "\n\n";
+            (function (game) {
+                var game_header = game.header();
+                var pgn_html    = game.pgn({ max_width: 5, newline_char: '<br />' });
+                var wp          = game_header.White;
+                var bp          = game_header.Black;
+                PlayerDB.findOne({handle: wp}, function(err, p1) {
+                    if (!_.has(ratings, wp)) {
+                        ratings[wp] = ranking.makePlayer(p1.rating_obj.rating, p1.rating_obj.rd, p1.rating_obj.vol);
+                    }
+                    PlayerDB.findOne({handle: bp}, function(err, p2) {
+                        if (!_.has(ratings, bp)) {
+                            ratings[bp] = ranking.makePlayer(p2.rating_obj.rating, p2.rating_obj.rd, p2.rating_obj.vol);
                         }
+                        var g = new GameDB({
+                                    id          : util.RandomString(8), // => made up of 8 iterations of random substring slices
+                                    white       : p1,
+                                    black       : p2,
+                                    timecontrol : game_header.TimeControl,
+                                    pgn         : pgn_html,
+                                    result      : game_header.Result,
+                                    date        : game_header.Date,
+                                    rated       : true
+                                });
+                        g.save(function(err) {
+                            if (err) {
+                                next(err);
+                            } else {
+                                //console.log("Game successfully saved in the DB.");
+                                // Rating updates
+                                if (game_header.Result == "1-0")
+                                    matches.push([ratings[wp], ratings[bp], 1]);
+                                else if (game_header.Result == "0-1")
+                                    matches.push([ratings[wp], ratings[bp], 0]);
+                                else
+                                    matches.push([ratings[wp], ratings[bp], 0.5]);
+                                UpdateGlicko2Ratings(ratings, matches); // Actual updates take place only after the last match of the tournament
+                            }
+                        });
                     });
                 });
-            });
+            } (game));
         }
 
         // Store tournament in the database
@@ -228,6 +257,7 @@ module.exports = function(server) {
                 //console.log("Tournament successfully saved in the DB.");
             }
         });
+
         
         // Put the download link for this file on to the Arena page using the return value
         return {pgns: all_pgns,
@@ -486,9 +516,9 @@ module.exports = function(server) {
             UpdatePerformance(opponent, 2);
             delete current_pairs[player];
             delete current_pairs[opponent];
+            game.header('Result', result);
             if (tournament_state === "in_progress")
                 finished_games_ids.push(game_id);
-            game.header('Result', result);
             var pgn = game.pgn({ max_width: 5, newline_char: '<br />' });
             if (_.has(player_vs_socket, player)) {
                 io.sockets.connected[player_vs_socket[player]].emit("game_over", { result: result, info: description, pgn: pgn });  
@@ -513,9 +543,9 @@ module.exports = function(server) {
             UpdatePerformance(opponent, 2);
             delete current_pairs[player];
             delete current_pairs[opponent];
+            game.header('Result', result);
             if (tournament_state === "in_progress")
                 finished_games_ids.push(game_id);
-            game.header('Result', result);
             var pgn = game.pgn({ max_width: 5, newline_char: '<br />' });
             if (_.has(player_vs_socket, player)) {
                 io.sockets.connected[player_vs_socket[player]].emit("game_over", { result: result, info: description, pgn: pgn });  
@@ -547,9 +577,9 @@ module.exports = function(server) {
             UpdatePerformance(opponent, 1);
             delete current_pairs[player];
             delete current_pairs[opponent];
+            game.header('Result', result);
             if (tournament_state === "in_progress")
                 finished_games_ids.push(game_id);
-            game.header('Result', result);
             var pgn = game.pgn({ max_width: 5, newline_char: '<br />' });
             if (_.has(player_vs_socket, player)) {
                 io.sockets.connected[player_vs_socket[player]].emit("game_over", { result: result, info: description, pgn: pgn });  
