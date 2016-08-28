@@ -8,7 +8,7 @@ var router   = express.Router();
 
 router.get('/', function(req, res) {
     res.render('partials/register', {
-        title: 'Chess Sign-Up'
+        title: 'Chess Arena Sign-Up'
     });
 });
 
