@@ -24,6 +24,15 @@ function ReturnUndefined() {
 }
 
 $(document).ready(function() {
+    
+    function ScrollDownTheChat() {
+        var height = 0;
+        $('#CHAT p').each(function(i, value) {
+            height += parseInt($(this).height());
+        });
+        $('#CHAT').animate({scrollTop: height});        
+    }
+    
     //var socket = io.connect('http://localhost:3333');
     var socket = io.connect('https://chess-arena.herokuapp.com');
 
@@ -298,7 +307,8 @@ $(document).ready(function() {
             statusEl.html(status);
             pgnEl.html(game.pgn());
             if (data.hasOwnProperty("msg")) {
-                $('#CHAT').append(data.msg + "<br>");
+                $('#CHAT').append("<p>" + data.msg + "</p>");
+                ScrollDownTheChat();
             }
         };
 
@@ -319,13 +329,15 @@ $(document).ready(function() {
         if ($('#TAKEBACK_BTN').hasClass('btn-info')) {
             $('#TAKEBACK_BTN').removeClass('btn-info');
             $('#TAKEBACK_BTN').addClass('btn-default');
-            $('#CHAT').append("Takeback declined.<br>");
+            $('#CHAT').append("<p>" + "Takeback declined" + "</p>");
+            ScrollDownTheChat();
             socket.emit("takeback_denied", {});
         }
         if ($('#DRAW_BTN').hasClass('btn-info')) {
             $('#DRAW_BTN').removeClass('btn-info');
             $('#DRAW_BTN').addClass('btn-default');
-            $('#CHAT').append("Draw declined.<br>");
+            $('#CHAT').append("<p>" + "Draw declined" + "</p>");
+            ScrollDownTheChat();
             socket.emit("draw_denied", {});
         }
         board = ChessBoard('BOARD', cfg);
@@ -372,7 +384,8 @@ $(document).ready(function() {
         $(this).blur();
         if ($(this).hasClass('btn-default')) {
             socket.emit("draw_offered", {});
-            $('#CHAT').append("Draw offer sent.<br>");            
+            $('#CHAT').append("<p>" + "Draw offer sent" + "</p>");
+            ScrollDownTheChat();
         } else{
             socket.emit("draw_accepted", {});
             $(this).removeClass('btn-info');
@@ -380,12 +393,14 @@ $(document).ready(function() {
         }
     });
     socket.on("opponent_offers_draw", function(data) { // Similar to opponent_wishes_to_takeback
-        $('#CHAT').append(data.who + " offers a draw<br>");
+        $('#CHAT').append("<p>" + data.who + " offers a draw" + "</p>");
+        ScrollDownTheChat();
         $('#DRAW_BTN').removeClass('btn-default');
         $('#DRAW_BTN').addClass('btn-info');
     });
     socket.on("draw_denied", function(data) {
-        $('#CHAT').append(data.who + " declined draw<br>");
+        $('#CHAT').append("<p>" + data.who + " declined draw" + "</p>");
+        ScrollDownTheChat();
     });
 
     // TAKEBACK functionality is similar to the DRAW functionality
@@ -393,7 +408,8 @@ $(document).ready(function() {
         $(this).blur();
         if ($(this).hasClass('btn-default')) {
             socket.emit("takeback_proposed", {});
-            $('#CHAT').append("Takeback proposal sent.<br>");
+            $('#CHAT').append("<p>" + "Takeback proposal sent" + "</p>");
+            ScrollDownTheChat();
         } else {
             socket.emit("takeback_granted", {});
             $(this).removeClass('btn-info');
@@ -401,12 +417,14 @@ $(document).ready(function() {
         }
     });
     socket.on("opponent_wishes_to_takeback", function(data) {
-        $('#CHAT').append(data.who + " wishes to takeback<br>");
+        $('#CHAT').append("<p>" + data.who + " wishes to takeback" + "</p>");
+        ScrollDownTheChat();
         $('#TAKEBACK_BTN').removeClass('btn-default');
         $('#TAKEBACK_BTN').addClass('btn-info');
     });
     socket.on("takeback_denied", function(data) {
-        $('#CHAT').append(data.who + " rejected takeback<br>");
+        $('#CHAT').append("<p>" + data.who + " refused takeback" + "</p>");
+        ScrollDownTheChat();
     });
 
     $('#ADD_TIME_BTN').click(function() {
@@ -432,6 +450,7 @@ $(document).ready(function() {
         socket.emit("chat", { msg: "You, too!" });
     });
     socket.on("chat", function(data) {
-        $('#CHAT').append("[" + data.who + "] " + data.msg + "<br>");
+        $('#CHAT').append("<p>[" + data.who + "] " + data.msg + "</p>");
+        ScrollDownTheChat();
     });
 });
