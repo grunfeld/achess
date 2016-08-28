@@ -162,9 +162,9 @@ $(document).ready(function() {
                 var points      = perf[player].points;
                 var results     = perf[player].results;
                 var whitespaces = 20 - player.length;
-                var wsp         = "&nbsp;&nbsp;"
+                var wsp         = "&nbsp;&nbsp;";
                 for (var j = 0; j < whitespaces; j++)
-                    wsp += '&nbsp;'
+                    wsp += '&nbsp;';
                 display_text += "<li>" + player + wsp + _.join(results, ' ') + " <span class=\"badge\">" + points + "</span></li> ";
             }
             display_text += "</ul>";
@@ -176,7 +176,7 @@ $(document).ready(function() {
             var display_text = "<ul style=\"list-style-type:none\">";
             _.forOwn(pairs, function(value, key) {
                 if (value.color =="white") {
-                    display_text += "<li>" + key + " Vs. " + value.opponent + "</li>"
+                    display_text += "<li>" + key + " Vs. " + value.opponent + "</li>";
                 }
             });
             display_text += "</ul>";
