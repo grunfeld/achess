@@ -108,6 +108,10 @@ body {
 .inactive_timer {
     color: darkgray;    
 }
+.less_than_10_sec {
+    background-color: red;
+}
+
 
 /* Darker scrollbars on Chrome */
 ::-webkit-scrollbar {

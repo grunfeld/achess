@@ -202,6 +202,7 @@ $(document).ready(function() {
             $('#OPPN_CLOCK').addClass("inactive_timer");
             $('#SELF_CLOCK').removeClass("inactive_timer");
             $('#SELF_CLOCK').addClass("active_timer");
+            $('#SELF_CLOCK').removeClass("less_than_10_sec");
             countdown = setInterval(function() {
                             my_time_left -= 1000;
                             if (my_time_left < 0) {
@@ -210,12 +211,18 @@ $(document).ready(function() {
                                 clearInterval(countdown);
                                 countdown = ReturnUndefined();
                             }
+                            if (my_time_left <= 10000) {
+                                $('#SELF_CLOCK').addClass("less_than_10_sec");
+                            } else {
+                                $('#SELF_CLOCK').removeClass("less_than_10_sec");
+                            }
                             $('#SELF_CLOCK').html(msToMins(my_time_left));
                         }, 1000);
         } else {
             $('#SELF_CLOCK').html(msToMins(my_time_left));
             $('#SELF_CLOCK').removeClass("active_timer");
             $('#SELF_CLOCK').addClass("inactive_timer");
+            $('#SELF_CLOCK').removeClass("less_than_10_sec"); // carried over from the last match
             $('#OPPN_CLOCK').removeClass("inactive_timer");
             $('#OPPN_CLOCK').addClass("active_timer");
             countdown = setInterval(function() {
@@ -267,7 +274,7 @@ $(document).ready(function() {
                     }
                 }
             }
-            
+
             var move = game.move({
                             from     : source,
                             to       : target,
