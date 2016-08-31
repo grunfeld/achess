@@ -1,0 +1,35 @@
+<div id="AI_GAME_ZONE">
+    <div class="spacer20"></div>
+    <div class="row">
+        <div class="col-lg-2">
+            <div class="panel panel-default">
+                <div id="AI_STATUS" class="panel-body"></div>
+            </div>
+        </div>
+        <div id="AI_BOARD" class="col-lg-7" style="width:620px"></div>
+        <div class="col-lg-3" style="margin-left:30px">
+            <div class="panel panel-default" style="padding:10px;">
+                <div id="AI_OPPN_MATERIAL_DIFF" class="panel-heading" style="padding-left:0px;padding-right:0px;height:60px;background-color:transparent;border:0"></div>
+                <div class="panel-body">
+                    <div id="AI_PGN" style="overflow:auto;height:360px;width:100%;background-color:transparent;border:0;color:white"></div>
+                </div>
+                <div id="AI_SELF_MATERIAL_DIFF" class="panel-heading" style="padding-left:0px;padding-right:0px;height:60px;background-color:transparent;border:0"></div>
+            </div>
+            
+            <div class="btn-group" role="group">
+                <button id="AI_SWITCH_SIDES_BTN" type="button" class="btn btn-lg btn-default" data-toggle="tooltip" title="Switch sides">
+                    <span class="fa fa-exchange" aria-hidden="true"></span>
+                </button>
+                <button id="AI_TAKEBACK_BTN" type="button" class="btn btn-lg btn-default" data-toggle="tooltip" title="Takeback">
+                    <span class="fa fa-reply" aria-hidden="true"></span>
+                </button>
+            </div>
+            
+            <div class="btn-group" role="group">
+                <button id="AI_RESIGN_BTN" type="button" class="btn btn-lg btn-danger" data-toggle="tooltip" title="Resign" onClick="window.location.reload()">
+                    <span class="fa fa-flag" aria-hidden="true"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
