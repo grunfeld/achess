@@ -23,6 +23,10 @@ function msToMins(duration) {
 function ReturnUndefined() {
 }
 
+function CharsInAString(str, ch) {
+    return (str.match(new RegExp(ch, "g")) || []).length;
+}
+
 $(document).ready(function() {
     
     function ScrollDownTheChat() {
@@ -235,6 +239,63 @@ $(document).ready(function() {
                         }, 1000);            
         }
 
+        // Show material difference
+        var fen = game.fen().split(" ")[0];
+        var wp  = CharsInAString(fen, "P");
+        var wr  = CharsInAString(fen, "R");
+        var wn  = CharsInAString(fen, "N");
+        var wb  = CharsInAString(fen, "B");
+        var wq  = CharsInAString(fen, "Q");
+        var bp  = CharsInAString(fen, "p");
+        var br  = CharsInAString(fen, "r");
+        var bn  = CharsInAString(fen, "n");
+        var bb  = CharsInAString(fen, "b");
+        var bq  = CharsInAString(fen, "q");
+        if (data.color === 'black') {
+            var c = bp; bp = wp; wp = c;
+                c = bn; bn = wn; wn = c;
+                c = bb; bb = wb; wb = c;
+                c = br; br = wr; wr = c;
+                c = bq; bq = wq; wq = c;
+        }
+        $('#SELF_MATERIAL_DIFF').empty();
+        $('#OPPN_MATERIAL_DIFF').empty();
+        if (wp > bp) {
+            var diff = wp - bp;
+            $('#SELF_MATERIAL_DIFF').prepend('<img src="img/chesspieces/regular/bp.svg" height="28" />&times;' + diff.toString());
+        } else if (bp > wp) {
+            var diff = bp - wp;
+            $('#OPPN_MATERIAL_DIFF').prepend('<img src="img/chesspieces/regular/bp.svg" height="28" />&times;' + diff.toString());
+        }
+        if (wn > bn) {
+            var diff = wn - bn;
+            $('#SELF_MATERIAL_DIFF').prepend('<img src="img/chesspieces/regular/bn.svg" height="28" />&times;' + diff.toString());
+        } else if (bn > wn) {
+            var diff = bn - wn;
+            $('#OPPN_MATERIAL_DIFF').prepend('<img src="img/chesspieces/regular/bn.svg" height="28" />&times;' + diff.toString());
+        }
+        if (wb > bb) {
+            var diff = wb - bb;
+            $('#SELF_MATERIAL_DIFF').prepend('<img src="img/chesspieces/regular/bb.svg" height="28" />&times;' + diff.toString());
+        } else if (bb > wb) {
+            var diff = bb - wb;
+            $('#OPPN_MATERIAL_DIFF').prepend('<img src="img/chesspieces/regular/bb.svg" height="28" />&times;' + diff.toString());
+        }
+        if (wr > br) {
+            var diff = wr - br;
+            $('#SELF_MATERIAL_DIFF').prepend('<img src="img/chesspieces/regular/br.svg" height="28" />&times;' + diff.toString());
+        } else if (br > wr) {
+            var diff = br - wr;
+            $('#OPPN_MATERIAL_DIFF').prepend('<img src="img/chesspieces/regular/br.svg" height="28" />&times;' + diff.toString());
+        }
+        if (wq > bq) {
+            var diff = wq - bq;
+            $('#SELF_MATERIAL_DIFF').prepend('<img src="img/chesspieces/regular/bq.svg" height="28" />&times;' + diff.toString());
+        } else if (bq > wq) {
+            var diff = bq - wq;
+            $('#OPPN_MATERIAL_DIFF').prepend('<img src="img/chesspieces/regular/bq.svg" height="28" />&times;' + diff.toString());
+        }
+        
         var board,
             statusEl = $('#STATUS'),
             pgnEl    = $('#PGN');
@@ -275,11 +336,7 @@ $(document).ready(function() {
                 }
             }
 
-            var move = game.move({
-                            from     : source,
-                            to       : target,
-                            promotion: promote_to
-                        });
+            var move = game.move({ from: source, to: target, promotion: promote_to });
             if (move === null) // illegal move
                 return 'snapback';
             // Send the move over to the server
@@ -312,7 +369,8 @@ $(document).ready(function() {
                 }
             }
             statusEl.html(status);
-            pgnEl.html(game.pgn());
+            pgnEl.html(game.pgn({max_width: 5, newline_char: '<br />'}));
+            pgnEl.animate({scrollTop: 10000}); // scroll down to the last move
             if (data.hasOwnProperty("msg")) {
                 $('#CHAT').append("<p>" + data.msg + "</p>");
                 ScrollDownTheChat();
@@ -349,6 +407,14 @@ $(document).ready(function() {
         }
         board = ChessBoard('BOARD', cfg);
         updateStatus();
+        
+        var h = game.history({ verbose: true });
+        if (h.length) {
+            var last_move = h[h.length - 1];
+            var boardEl = $('#BOARD');
+            boardEl.find('.square-' + last_move.from).addClass('highlight-last-move');
+            boardEl.find('.square-' + last_move.to).addClass('highlight-last-move');
+        }
     });
     
     socket.on("game_over", function(data) {

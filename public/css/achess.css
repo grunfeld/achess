@@ -112,6 +112,11 @@ body {
     background-color: red;
 }
 
+.highlight-last-move {
+  -webkit-box-shadow: inset 0 0 5px 5px #2F4F4F;
+  -moz-box-shadow: inset 0 0 5px 5px #2F4F4F;
+  box-shadow: inset 0 0 5px 5px #2F4F4F;
+}
 
 /* Darker scrollbars on Chrome */
 ::-webkit-scrollbar {

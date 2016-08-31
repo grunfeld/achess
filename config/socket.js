@@ -46,7 +46,7 @@ module.exports = function(server) {
         chess_game_objs        = {};
         finished_games_ids     = [];
         _.forOwn(player_performance, function(value, key) {
-            player_performance[key] = { points: 0, streak: 0, results: [] }
+            player_performance[key] = { points: 0, streak: 0, results: [] };
         });
         player_vs_logout_timer = {};
         timing_data            = {};
@@ -133,7 +133,7 @@ module.exports = function(server) {
                 player_performance[player].results.push(0);
             }
         } else { // Create
-            player_performance[player]        = { points: 0, streak: 0, results: [] }
+            player_performance[player]        = { points: 0, streak: 0, results: [] };
             player_performance[player].points = (result === -1) ? 0 : result;
             player_performance[player].streak = (result === 2)  ? 1 : 0;
             if (result !== -1)
@@ -150,7 +150,7 @@ module.exports = function(server) {
             function(a, b) {
                 return b[1] - a[1];
             }
-        )
+        );
         // TODO - implement tiebreaker
         //console.log(sortable);
         var standings = [];
@@ -274,7 +274,7 @@ module.exports = function(server) {
                 //console.log("Starting the tournament T = " + data.duration + ' ' + data.base_time + '+' + data.increment);
                 tournament_state       = "in_progress";
                 tournament_start_time  = Date.now();
-                duration               = parseInt(data.duration);
+                var duration           = parseInt(data.duration);
                 tournament_base_time   = parseInt(data.base_time);
                 tournament_increment   = parseInt(data.increment);
                 tournament_end_time    = tournament_start_time + duration;
@@ -292,7 +292,7 @@ module.exports = function(server) {
                 tournament_countdown_timer = setInterval(function() {
                     var time_now  = Date.now();
                     var time_left = (tournament_end_time > time_now) ? (tournament_end_time - time_now) : 0;
-                    io.sockets.emit("tournament_countdown_timer", time_left)
+                    io.sockets.emit("tournament_countdown_timer", time_left);
                 }, 1000);
 
                 //tournament_pairing_clock = setInterval(function() {
@@ -423,7 +423,7 @@ module.exports = function(server) {
         socket.on('move', function(data) {
             var player   = socket_vs_player[socket.id];
             var opponent = current_pairs[player].opponent;
-            var game_id  = current_pairs[player].gameId
+            var game_id  = current_pairs[player].gameId;
             var game     = chess_game_objs[game_id];
             game.move(data);
             var pgn                       = game.pgn();
@@ -491,7 +491,7 @@ module.exports = function(server) {
                 if (tournament_state === "in_progress")
                     finished_games_ids.push(game_id);
                 game.header('Result', result);
-                var pgn = game.pgn({ max_width: 5, newline_char: '<br />' });
+                pgn = game.pgn({ max_width: 5, newline_char: '<br />' });
                 // game_over event will eventually trigger the re-joining event putting this player back
                 // on the unpaired players' list
                 if (_.has(player_vs_socket, player)) {
