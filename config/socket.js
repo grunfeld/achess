@@ -377,7 +377,7 @@ module.exports = function(server) {
                         if (!_.has(player_vs_logout_timer, opponent)) { // opponent is online
                             var pgn         = game.pgn({max_width: 5, newline_char: '<br />'});
                             var description = opponent + " won! Your opponent left the game.";
-                            io.sockets.connected[player_vs_socket[opponent]].emit("game_over", { result: result, info: description, pgn: pgn });
+                            io.sockets.connected[player_vs_socket[opponent]].emit("game_over", { result: result, info: description, pgn: pgn, fen: game.fen(), color: color });
                         } else {
                             // opponent left the game in-between this reconnect-wait interval
                             // We have to terminate his timer in here, if we let it expire later and in the meantime
@@ -495,23 +495,24 @@ module.exports = function(server) {
                 // game_over event will eventually trigger the re-joining event putting this player back
                 // on the unpaired players' list
                 if (_.has(player_vs_socket, player)) {
-                    io.sockets.connected[player_vs_socket[player]].emit("game_over", { result: result, info: description, pgn: pgn });  
+                    io.sockets.connected[player_vs_socket[player]].emit("game_over", { result: result, info: description, pgn: pgn, fen: game.fen(), color: p1_color });  
                 }
                 if (_.has(player_vs_socket, opponent)) {
-                    io.sockets.connected[player_vs_socket[opponent]].emit("game_over", { result: result, info: description, pgn: pgn });
+                    io.sockets.connected[player_vs_socket[opponent]].emit("game_over", { result: result, info: description, pgn: pgn, fen: game.fen(), color: p2_color });
                 }
                 io.emit('leaderboard', { perf: player_performance, pairs: current_pairs });
             }
         });
     
         socket.on('resign', function(data) {
-            var player      = socket_vs_player[socket.id];
-            var opponent    = current_pairs[player].opponent;
-            var game_id     = current_pairs[player].gameId;
-            var game        = chess_game_objs[game_id];
-            var color       = current_pairs[player].color;
-            var result      = (color === "white") ? "0-1" : "1-0";
-            var description = opponent + " won! " + player + " resigned.";
+            var player         = socket_vs_player[socket.id];
+            var opponent       = current_pairs[player].opponent;
+            var game_id        = current_pairs[player].gameId;
+            var game           = chess_game_objs[game_id];
+            var color          = current_pairs[player].color;
+            var opponent_color = current_pairs[opponent].color;
+            var result         = (color === "white") ? "0-1" : "1-0";
+            var description    = opponent + " won! " + player + " resigned.";
             UpdatePerformance(player, 0);
             UpdatePerformance(opponent, 2);
             delete current_pairs[player];
@@ -521,10 +522,10 @@ module.exports = function(server) {
                 finished_games_ids.push(game_id);
             var pgn = game.pgn({ max_width: 5, newline_char: '<br />' });
             if (_.has(player_vs_socket, player)) {
-                io.sockets.connected[player_vs_socket[player]].emit("game_over", { result: result, info: description, pgn: pgn });  
+                io.sockets.connected[player_vs_socket[player]].emit("game_over", { result: result, info: description, pgn: pgn, fen: game.fen(), color: color });  
             }
             if (_.has(player_vs_socket, opponent)) {
-                io.sockets.connected[player_vs_socket[opponent]].emit("game_over", { result: result, info: description, pgn: pgn });
+                io.sockets.connected[player_vs_socket[opponent]].emit("game_over", { result: result, info: description, pgn: pgn, fen: game.fen(), color: opponent_color });
             }
             io.emit('leaderboard', { perf: player_performance, pairs: current_pairs });
         });
@@ -533,12 +534,13 @@ module.exports = function(server) {
             var player      = socket_vs_player[socket.id];
             if (!_.has(current_pairs, player)) return;
             //console.log(player + " timed out");
-            var opponent    = current_pairs[player].opponent;
-            var game_id     = current_pairs[player].gameId;
-            var game        = chess_game_objs[game_id];
-            var color       = current_pairs[player].color;
-            var result      = (color === "white") ? "0-1" : "1-0";
-            var description = opponent + " won! " + player + " timed out.";
+            var opponent       = current_pairs[player].opponent;
+            var game_id        = current_pairs[player].gameId;
+            var game           = chess_game_objs[game_id];
+            var color          = current_pairs[player].color;
+            var opponent_color = current_pairs[opponent].color;
+            var result         = (color === "white") ? "0-1" : "1-0";
+            var description    = opponent + " won! " + player + " timed out.";
             UpdatePerformance(player, 0);
             UpdatePerformance(opponent, 2);
             delete current_pairs[player];
@@ -548,10 +550,10 @@ module.exports = function(server) {
                 finished_games_ids.push(game_id);
             var pgn = game.pgn({ max_width: 5, newline_char: '<br />' });
             if (_.has(player_vs_socket, player)) {
-                io.sockets.connected[player_vs_socket[player]].emit("game_over", { result: result, info: description, pgn: pgn });  
+                io.sockets.connected[player_vs_socket[player]].emit("game_over", { result: result, info: description, pgn: pgn, fen: game.fen(), color: color });  
             }
             if (_.has(player_vs_socket, opponent)) {
-                io.sockets.connected[player_vs_socket[opponent]].emit("game_over", { result: result, info: description, pgn: pgn });
+                io.sockets.connected[player_vs_socket[opponent]].emit("game_over", { result: result, info: description, pgn: pgn, fen: game.fen(), color: opponent_color });
             }
             io.emit('leaderboard', { perf: player_performance, pairs: current_pairs });
         });
@@ -573,6 +575,8 @@ module.exports = function(server) {
             var game        = chess_game_objs[game_id];
             var result      = "1/2-1/2";
             var description = "Game drawn by agreement.";
+            var p1_color    = current_pairs[player].color;
+            var p2_color    = current_pairs[opponent].color;
             UpdatePerformance(player, 1);
             UpdatePerformance(opponent, 1);
             delete current_pairs[player];
@@ -582,10 +586,10 @@ module.exports = function(server) {
                 finished_games_ids.push(game_id);
             var pgn = game.pgn({ max_width: 5, newline_char: '<br />' });
             if (_.has(player_vs_socket, player)) {
-                io.sockets.connected[player_vs_socket[player]].emit("game_over", { result: result, info: description, pgn: pgn });  
+                io.sockets.connected[player_vs_socket[player]].emit("game_over", { result: result, info: description, pgn: pgn, fen: game.fen(), color: p1_color });  
             }
             if (_.has(player_vs_socket, opponent)) {
-                io.sockets.connected[player_vs_socket[opponent]].emit("game_over", { result: result, info: description, pgn: pgn });
+                io.sockets.connected[player_vs_socket[opponent]].emit("game_over", { result: result, info: description, pgn: pgn, fen: game.fen(), color: p2_color });
             }
             io.emit('leaderboard', { perf: player_performance, pairs: current_pairs });
         });
