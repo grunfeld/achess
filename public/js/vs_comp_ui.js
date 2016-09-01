@@ -53,15 +53,17 @@ $(document).ready(function() {
         $('#AI_SWITCH_SIDES_BTN').removeClass("disabled");
         $('#AI_TAKEBACK_BTN').removeClass("disabled");
         $('#AI_RESIGN_BTN').removeClass("disabled");
-        updateStatus();            
+        updateStatus();
     }
 
 //--------------------------------------------------------------------------
 
     var game     = new Chess();
+    game.header('Event', 'Chess Arena', 'Site', 'online', 'Date', '?', 'Round', '?', 'White', '?', 'Black', '?', 'Result', '*');
     var board,
         statusEl = $('#AI_STATUS'),
         pgnEl    = $('#AI_PGN'),
+        fenEl    = $('#AI_FEN'),
         color    = 'white';
 
     // Do not pick up pieces if the game is over
@@ -146,6 +148,7 @@ $(document).ready(function() {
         statusEl.html(status);
         pgnEl.html(game.pgn({max_width: 5, newline_char: '<br />'}));
         pgnEl.animate({scrollTop: 10000}); // scroll down to the last move
+        fenEl.html(game.fen());
         var h = game.history({ verbose: true });
         if (h.length) {
             var last_move = h[h.length - 1];
@@ -266,5 +269,6 @@ $(document).ready(function() {
         game.undo(); // opponent's move
         game.undo(); // your last move
         board.position(game.fen());
+        updateStatus();
     });
 });
