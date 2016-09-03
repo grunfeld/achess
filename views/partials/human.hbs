@@ -5,7 +5,22 @@
             <div class="panel panel-default">
                 <div id="H_STATUS" class="panel-body"></div>
             </div>
+            
+            <div id="H_CHAT" style="height:495px;overflow:auto;width:100%"></div>
+            
+            <div class="btn-group" role="group">
+                <button id="H_HAVE_FUN" type="button" class="btn btn-lg btn-default" data-toggle="tooltip" title="Have fun!">
+                    <i class="fa fa-smile-o" aria-hidden="true"></i>
+                </button>
+                <button id="H_THANKS" type="button" class="btn btn-lg btn-default" data-toggle="tooltip" title="Thanks!">
+                    TH
+                </button>
+                <button id="H_YOU_TOO" type="button" class="btn btn-lg btn-default" data-toggle="tooltip" title="You too!">
+                    U2
+                </button>
+            </div>
         </div>
+        
         <div id="H_BOARD" class="col-lg-7" style="width:620px" data-token="{{ token }}" data-orientation="{{ color }}"></div>
         <div class="col-lg-3" style="margin-left:30px">
             <div class="panel panel-default" style="padding:10px;">
@@ -16,6 +31,14 @@
                 <div id="H_SELF_MATERIAL_DIFF" class="panel-heading" style="padding-left:0px;padding-right:0px;height:60px;background-color:transparent;border:0"></div>
             </div>
             
+            <div class="btn-group" role="group">
+                <button id="H_DRAW_BTN" type="button" class="btn btn-lg btn-default" data-toggle="tooltip" title="Draw">
+                    <span class="fa fa-shield" aria-hidden="true"></span>
+                </button>
+                <button id="H_TAKEBACK_BTN" type="button" class="btn btn-lg btn-default" data-toggle="tooltip" title="Takeback">
+                    <span class="fa fa-reply" aria-hidden="true"></span>
+                </button>
+            </div>
             <div class="btn-group" role="group">
                 <button id="H_RESIGN_BTN" type="button" class="btn btn-lg btn-danger" data-toggle="tooltip" title="Resign">
                     <span class="fa fa-flag" aria-hidden="true"></span>

@@ -3,6 +3,15 @@ function CharsInAString(str, ch) {
 }
 
 $(document).ready(function() {
+
+    function ScrollDownTheChat() {
+        var height = 0;
+        $('#H_CHAT p').each(function(i, value) {
+            height += parseInt($(this).height());
+        });
+        $('#H_CHAT').animate({scrollTop: height});        
+    }
+    
     //var base_url = 'http://localhost:3333'
     var base_url = 'https://chess-arena.herokuapp.com';
     var socket = io.connect(base_url);
@@ -141,31 +150,31 @@ $(document).ready(function() {
             }
             if (wn > bn) {
                 var diff = wn - bn;
-                $('#H_SELF_MATERIAL_DIFF').prepend('<img src="../img/chesspieces/regular/bn.svg" height="28" />&times;' + diff.toString());
+                $('#H_SELF_MATERIAL_DIFF').prepend('<img src="../../../img/chesspieces/regular/bn.svg" height="28" />&times;' + diff.toString());
             } else if (bn > wn) {
                 var diff = bn - wn;
-                $('#H_OPPN_MATERIAL_DIFF').prepend('<img src="../img/chesspieces/regular/bn.svg" height="28" />&times;' + diff.toString());
+                $('#H_OPPN_MATERIAL_DIFF').prepend('<img src="../../../img/chesspieces/regular/bn.svg" height="28" />&times;' + diff.toString());
             }
             if (wb > bb) {
                 var diff = wb - bb;
-                $('#H_SELF_MATERIAL_DIFF').prepend('<img src="../img/chesspieces/regular/bb.svg" height="28" />&times;' + diff.toString());
+                $('#H_SELF_MATERIAL_DIFF').prepend('<img src="../../../img/chesspieces/regular/bb.svg" height="28" />&times;' + diff.toString());
             } else if (bb > wb) {
                 var diff = bb - wb;
-                $('#H_OPPN_MATERIAL_DIFF').prepend('<img src="../img/chesspieces/regular/bb.svg" height="28" />&times;' + diff.toString());
+                $('#H_OPPN_MATERIAL_DIFF').prepend('<img src="../../../img/chesspieces/regular/bb.svg" height="28" />&times;' + diff.toString());
             }
             if (wr > br) {
                 var diff = wr - br;
-                $('#H_SELF_MATERIAL_DIFF').prepend('<img src="../img/chesspieces/regular/br.svg" height="28" />&times;' + diff.toString());
+                $('#H_SELF_MATERIAL_DIFF').prepend('<img src="../../../img/chesspieces/regular/br.svg" height="28" />&times;' + diff.toString());
             } else if (br > wr) {
                 var diff = br - wr;
-                $('#H_OPPN_MATERIAL_DIFF').prepend('<img src="../img/chesspieces/regular/br.svg" height="28" />&times;' + diff.toString());
+                $('#H_OPPN_MATERIAL_DIFF').prepend('<img src="../../../img/chesspieces/regular/br.svg" height="28" />&times;' + diff.toString());
             }
             if (wq > bq) {
                 var diff = wq - bq;
-                $('#H_SELF_MATERIAL_DIFF').prepend('<img src="../img/chesspieces/regular/bq.svg" height="28" />&times;' + diff.toString());
+                $('#H_SELF_MATERIAL_DIFF').prepend('<img src="../../../img/chesspieces/regular/bq.svg" height="28" />&times;' + diff.toString());
             } else if (bq > wq) {
                 var diff = bq - wq;
-                $('#H_OPPN_MATERIAL_DIFF').prepend('<img src="../img/chesspieces/regular/bq.svg" height="28" />&times;' + diff.toString());
+                $('#H_OPPN_MATERIAL_DIFF').prepend('<img src="../../../img/chesspieces/regular/bq.svg" height="28" />&times;' + diff.toString());
             }
             
             // Show the result-modal if the game has ended
@@ -187,6 +196,17 @@ $(document).ready(function() {
                 $('#H_GAME_RESULT_TITLE').html("Game drawn.");
                 $('#H_GAME_RESULT').html(pgn_html);
                 $('#H_GAME_RESULT_POPUP').modal({ keyboard: false, backdrop: 'static' });
+            }
+            
+            if ($('#H_TAKEBACK_BTN').hasClass("btn-info")) {
+                $('#H_TAKEBACK_BTN').removeClass("btn-info");
+                $('#H_TAKEBACK_BTN').addClass("btn-default");
+                socket.emit("casual_takeback_denied", { token: token });
+            }
+            if ($('#H_DRAW_BTN').hasClass("btn-info")) {
+                $('#H_DRAW_BTN').removeClass("btn-info");
+                $('#H_DRAW_BTN').addClass("btn-default");
+                socket.emit("casual_draw_declined", { token: token });
             }
         };
 
@@ -237,7 +257,79 @@ $(document).ready(function() {
         $('#H_RESIGN_BTN').click(function(ev) {
             ev.preventDefault();
             $(this).blur();
-            socket.emit('casual_resign', {token: token, color: color });
+            socket.emit('casual_resign', { token: token, color: color });
+        });
+        
+        // Takeback - events are simiar to draw related ones
+        $('#H_TAKEBACK_BTN').click(function(ev) {
+            ev.preventDefault();
+            $(this).blur();
+            if ($('#H_TAKEBACK_BTN').hasClass("btn-info")) {
+                socket.emit('casual_takeback_granted', { token: token, color: color });
+                $('#H_TAKEBACK_BTN').addClass("btn-default");
+            } else {
+                socket.emit('casual_takeback_request', { token: token, color: color });
+                socket.emit('casual_chat', { token: token, who: color, msg: " wants to takeback." });
+            }
+        });
+        socket.on("casual_takeback_requested", function() {
+            $('#H_TAKEBACK_BTN').addClass("btn-info");
+        });
+        socket.on("casual_takeback", function() {
+            $('#H_TAKEBACK_BTN').removeClass("btn-info");
+            $('#H_TAKEBACK_BTN').addClass("btn-default");
+            var h = game.history({ verbose: true });
+            if (h.length) {
+                var last_move = h[h.length - 1];
+                var boardEl = $('#H_BOARD');
+                boardEl.find('.square-' + last_move.from).removeClass('highlight-last-move');
+                boardEl.find('.square-' + last_move.to).removeClass('highlight-last-move');
+            }
+            game.undo();
+            board.position(game.fen(), false);
+            updateStatus();
+        });
+        
+        // Draw - events are similar to takeback ones
+        $('#H_DRAW_BTN').click(function(ev) {
+            ev.preventDefault();
+            $(this).blur();
+            if ($('#H_DRAW_BTN').hasClass("btn-info")) {
+                socket.emit('casual_draw_accepted', { token: token, color: color });
+                $('#H_TAKEBACK_BTN').addClass("btn-default");
+            } else {
+                socket.emit('casual_draw_offer', { token: token, color: color });
+                socket.emit('casual_chat', { token: token, who: color, msg: " offers a draw." });
+            }
+        });
+        socket.on("casual_draw_offered", function(data) {
+            $('#H_DRAW_BTN').addClass("btn-info");
+        });
+        socket.on("casual_draw", function(data) {
+            game.header('Result', '1/2-1/2');
+            var raw_pgn  = game.pgn();
+            var pgn_html = raw_pgn.split(']').join(']<br>'); // WOW!
+            $('#H_GAME_RESULT_TITLE').html("Game drawn by agreement.");
+            $('#H_GAME_RESULT').html(pgn_html);
+            $('#H_GAME_RESULT_POPUP').modal({ keyboard: false, backdrop: 'static' });
+        });
+
+        // Chat
+        $('#H_HAVE_FUN').click(function() {
+            $(this).blur();
+            socket.emit('casual_chat', { token: token, who: color, msg: "Have fun!" });
+        });
+        $('#H_THANKS').click(function() {
+            $(this).blur();
+            socket.emit('casual_chat', { token: token, who: color, msg: "Thanks!" });
+        });
+        $('#H_YOU_TOO').click(function() {
+            $(this).blur();
+            socket.emit('casual_chat', { token: token, who: color, msg: "You too!" });
+        });
+        socket.on("casual_chat_out", function(data) {
+            $('#H_CHAT').append("<p>[" + data.who + "] " + data.msg + "</p>");
+            ScrollDownTheChat();
         });
     }
 });

@@ -414,8 +414,8 @@ module.exports = function(server) {
             for (var room in casual_games) {
                 var casual_game = casual_games[room];
                 for (var p in casual_game.players) {
-                    var player = casual_game.players[p];
-                    if (player.socket === socket) {
+                    var plyr = casual_game.players[p];
+                    if (plyr.socket === socket) {
                         socket.broadcast.to(room).emit('casual_disconnection');
                         delete casual_games[room];
                     }
@@ -705,7 +705,7 @@ module.exports = function(server) {
             }
         });
 
-        
+//---------------------------------------------------------------------------------------------------------------------------        
         // Casual game related events    
         socket.on('casual_join', function (data) {
             var room = data.token;
@@ -740,6 +740,65 @@ module.exports = function(server) {
                 delete casual_games[room];
             }
         });
-
+        
+        // Takeback
+        socket.on('casual_takeback_request', function(data) {
+            var room = data.token;
+            if (_.has(casual_games, room)) {
+                var casual_game = casual_games[room];
+                if (casual_game.players[0].socket === socket) {
+                    io.sockets.connected[casual_game.players[1].socket.id].emit('casual_takeback_requested');
+                } else if (casual_game.players[1].socket === socket) {
+                    io.sockets.connected[casual_game.players[0].socket.id].emit('casual_takeback_requested');
+                }
+            }
+        });
+        socket.on('casual_takeback_granted', function(data) {
+            var room = data.token;
+            if (_.has(casual_games, room)) {
+                io.sockets.to(room).emit("casual_takeback");
+            }
+        });
+        socket.on('casual_takeback_denied', function(data) {
+            var room = data.token;
+            if (_.has(casual_games, room)) {
+                io.sockets.to(room).emit('casual_chat_out', { who: "info", msg: "Takeback denied." });
+            }
+        });
+        
+        // Draw
+        socket.on('casual_draw_offer', function(data) {
+            var room = data.token;
+            if (_.has(casual_games, room)) {
+                var casual_game = casual_games[room];
+                if (casual_game.players[0].socket === socket) {
+                    io.sockets.connected[casual_game.players[1].socket.id].emit('casual_draw_offered');
+                } else if (casual_game.players[1].socket === socket) {
+                    io.sockets.connected[casual_game.players[0].socket.id].emit('casual_draw_offered');
+                }
+            }
+        });
+        socket.on('casual_draw_accepted', function(data) {
+            var room = data.token;
+            if (_.has(casual_games, room)) {
+                io.sockets.to(room).emit("casual_draw");
+                casual_games[room].players[0].socket.leave(room);
+                casual_games[room].players[1].socket.leave(room);
+                delete casual_games[room];
+            }
+        });
+        socket.on('casual_draw_declined', function(data) {
+            var room = data.token;
+            if (_.has(casual_games, room)) {
+                io.sockets.to(room).emit('casual_chat_out', { who: "info", msg: "Draw declined." });
+            }
+        });
+        
+        socket.on('casual_chat', function(data) {
+            var room = data.token;
+            if (_.has(casual_games, room)) {
+                io.sockets.to(room).emit('casual_chat_out', { who: data.who, msg: data.msg });
+            }
+        });
     });
 };
