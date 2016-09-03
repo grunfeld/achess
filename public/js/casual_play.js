@@ -97,20 +97,20 @@ $(document).ready(function() {
             
             // Hightlight the last move
             var h = game.history({ verbose: true });
-            if (h.length) {
-                var last_move = h[h.length - 1];
-                var boardEl = $('#H_BOARD');
-                boardEl.find('.square-' + last_move.from).addClass('highlight-last-move');
-                boardEl.find('.square-' + last_move.to).addClass('highlight-last-move');
-            }
             if (h.length > 1) {
                 var last_but_one_move = h[h.length - 2];
                 var boardEl = $('#H_BOARD');
                 boardEl.find('.square-' + last_but_one_move.from).removeClass('highlight-last-move');
                 boardEl.find('.square-' + last_but_one_move.to).removeClass('highlight-last-move');
             }
+            if (h.length) {
+                var last_move = h[h.length - 1];
+                var boardEl = $('#H_BOARD');
+                boardEl.find('.square-' + last_move.from).addClass('highlight-last-move');
+                boardEl.find('.square-' + last_move.to).addClass('highlight-last-move');
+            }
 
-             // Show material difference
+            // Show material difference
             var raw = game.fen();
             var fen = raw.split(" ")[0];
             var wp  = CharsInAString(fen, "P");

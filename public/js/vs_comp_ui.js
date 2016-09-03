@@ -116,7 +116,7 @@ $(document).ready(function() {
         EnsureAnalysisStopped();
         ResetGame();
         InitializeFromFen(game.fen());
-        statusEl.html("Thinking...");
+        statusEl.html('<i class="fa fa-cog fa-spin fa-fw"></i> Thinking...');
         setTimeout(function() {
             SearchAndUpdateStatus();
         }, 50);
@@ -152,20 +152,20 @@ $(document).ready(function() {
         
         // Hightlight the last move
         var h = game.history({ verbose: true });
-        if (h.length) {
-            var last_move = h[h.length - 1];
-            var boardEl = $('#AI_BOARD');
-            boardEl.find('.square-' + last_move.from).addClass('highlight-last-move');
-            boardEl.find('.square-' + last_move.to).addClass('highlight-last-move');
-        }
         if (h.length > 1) {
             var last_but_one_move = h[h.length - 2];
             var boardEl = $('#AI_BOARD');
             boardEl.find('.square-' + last_but_one_move.from).removeClass('highlight-last-move');
             boardEl.find('.square-' + last_but_one_move.to).removeClass('highlight-last-move');
         }
+        if (h.length) {
+            var last_move = h[h.length - 1];
+            var boardEl = $('#AI_BOARD');
+            boardEl.find('.square-' + last_move.from).addClass('highlight-last-move');
+            boardEl.find('.square-' + last_move.to).addClass('highlight-last-move');
+        }
         
-         // Show material difference
+        // Show material difference
         var raw = game.fen();
         var fen = raw.split(" ")[0];
         var wp  = CharsInAString(fen, "P");
@@ -252,7 +252,7 @@ $(document).ready(function() {
         EnsureAnalysisStopped();
         ResetGame();
         InitializeFromFen(game.fen());
-        $('#AI_STATUS').html("Thinking...");
+        $('#AI_STATUS').html('<i class="fa fa-cog fa-spin fa-fw"></i> Thinking...');
         setTimeout(function() {
             SearchAndUpdateStatus();
         }, 50);
