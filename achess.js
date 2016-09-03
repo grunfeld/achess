@@ -57,7 +57,7 @@ app.use('/admin',    require('./routes/admin'));
 app.use('/dpgn',     require('./routes/download'));
 app.use('/logout',   require('./routes/logout'));
 app.use('/ai',       require('./routes/gc'));
-
+app.use('/casual',   require('./routes/casual'));
 
 // The 404 Route (ALWAYS Keep this as the last route)
 app.get('*', function(req, res) {

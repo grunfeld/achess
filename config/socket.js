@@ -41,6 +41,10 @@ module.exports = function(server) {
                                      // game at the time of logout.
     var timing_data            = {}; // Holds game-timer info against game-ids.
     
+    
+    // Casual game related data structures
+    var casual_games = {};
+    
     var Initialize = function () {
         current_pairs          = {};
         chess_game_objs        = {};
@@ -405,6 +409,18 @@ module.exports = function(server) {
                     }, 60000); // 60 seconds
                 }
             }
+            
+            // Casual-play disconnection
+            for (var room in casual_games) {
+                var casual_game = casual_games[room];
+                for (var p in casual_game.players) {
+                    var player = casual_game.players[p];
+                    if (player.socket === socket) {
+                        socket.broadcast.to(room).emit('casual_disconnection');
+                        delete casual_games[room];
+                    }
+                }
+            }
         });
 
         socket.on('player_joined_tournament', function(data) {
@@ -688,9 +704,42 @@ module.exports = function(server) {
                 io.sockets.connected[socket.id].emit("chat", { who: opponent, msg: "is offline" });
             }
         });
+
         
-        // TODO
-        socket.on('premove', function(data) {});
-        socket.on('cancel_premove', function(data) {});
+        // Casual game related events    
+        socket.on('casual_join', function (data) {
+            var room = data.token;
+            // If the player is the first to join, initialize the game and players array
+            if (!_.has(casual_games, room)) {
+                var players = [{ socket: socket, name: "Anon", status: 'joined', color: data.color },
+                               { socket: null,   name: "",     status: 'open',   color: (data.color === "black") ? "white" : "black" }];
+                casual_games[room] = { creator: socket, status: 'waiting', players: players };
+                socket.join(room);
+                socket.emit('casual_wait'); // tell the game creator to wait until a opponent joins the game
+                return;
+            }
+            var casual_game = casual_games[room];
+            socket.join(room);
+            casual_game.players[1].socket = socket;
+            casual_game.players[1].name   = "Anon";
+            casual_game.players[1].status = "joined";
+            casual_game.status            = "ready";
+            io.sockets.to(room).emit('casual_ready');
+        });
+        
+        socket.on('casual_move', function(data) {
+            socket.broadcast.to(data.token).emit('casual_make_move', data);
+        });
+        
+        socket.on('casual_resign', function(data) {
+            var room = data.token;
+            if (_.has(casual_games, room)) {
+                io.sockets.to(room).emit('casual_oppn_resigned', { color: data.color });
+                casual_games[room].players[0].socket.leave(room);
+                casual_games[room].players[1].socket.leave(room);
+                delete casual_games[room];
+            }
+        });
+
     });
 };

@@ -15,6 +15,15 @@ module.exports = {
         return str;
     },
     
+    RandomStringOfLength: function(length) {
+        var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghiklmnopqrstuvwxyz';
+        var str = '';
+        for (var i = 0; i < length; i++) {
+            str += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return str;
+    },
+    
     ensureAuthenticated: function(req, res, next) {
         if (req.isAuthenticated()) {
             return next();

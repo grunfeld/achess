@@ -58,8 +58,8 @@ $(document).ready(function() {
 
 //--------------------------------------------------------------------------
 
-    var game     = new Chess();
-    game.header('Event', 'Chess Arena', 'Site', 'online', 'Date', '?', 'Round', '?', 'White', '?', 'Black', '?', 'Result', '*');
+    var game = new Chess();
+    game.header('Event', 'Casual Game', 'Site', 'Chess Arena', 'Date', '?', 'Round', '?', 'White', '?', 'Black', '?', 'Result', '*');
     var board,
         statusEl = $('#AI_STATUS'),
         pgnEl    = $('#AI_PGN'),
@@ -149,6 +149,8 @@ $(document).ready(function() {
         pgnEl.html(game.pgn({max_width: 5, newline_char: '<br />'}));
         pgnEl.animate({scrollTop: 10000}); // scroll down to the last move
         fenEl.html(game.fen());
+        
+        // Hightlight the last move
         var h = game.history({ verbose: true });
         if (h.length) {
             var last_move = h[h.length - 1];
@@ -164,7 +166,8 @@ $(document).ready(function() {
         }
         
          // Show material difference
-        var fen = game.fen().split(" ")[0];
+        var raw = game.fen();
+        var fen = raw.split(" ")[0];
         var wp  = CharsInAString(fen, "P");
         var wr  = CharsInAString(fen, "R");
         var wn  = CharsInAString(fen, "N");

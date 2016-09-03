@@ -11,5 +11,13 @@
         <i class="fa fa-user-plus" aria-hidden="true"></i><a href="/register"> Sign-up</a>
     </h4>
     <div class="spacer30"></div>
-    <a class="btn btn-lg btn-default" href="/ai">Vs. Computer</a>
+
+    <form action = "/casual" method = "post">
+        <span style="font-size:18px">Casual game Vs.&nbsp;</span> 
+        <button class="btn btn-lg btn-default" type="submit" name="oppn" value="ai" data-toggle="tooltip" title="Vs. Garbochess"><i class="fa fa-laptop" aria-hidden="true"></i></button>
+        <div class="btn-group" role="group">
+            <button class="btn btn-lg btn-default" type="submit" name="oppn" value="hw" data-toggle="tooltip" title="As White Vs. Friend"><i class="fa fa-user" aria-hidden="true"></i></button>
+            <button class="btn btn-lg btn-default" type="submit" name="oppn" value="hb" data-toggle="tooltip" title="As Black Vs. Friend"><span style="color:black"><i class="fa fa-user" aria-hidden="true"></i></span></button>
+        </div>
+    </form>
 </div>

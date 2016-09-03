@@ -62,11 +62,15 @@
         <script type="text/javascript" src="/bower_components/chessboardjs/js/chessboard-0.3.0.min.js"></script>
         {{#if player}}
         <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-        <script type="text/javascript" src="/js/client.js"></script>
+        <script type="text/javascript" src="/js/arena.js"></script>
         {{/if}}
         {{#if ai}}
         <script type="text/javascript" src="/js/garbochess.js"></script>
         <script type="text/javascript" src="/js/vs_comp_ui.js"></script>
+        {{/if}}
+        {{#if token}}
+        <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+        <script type="text/javascript" src="/js/casual_play.js"></script>
         {{/if}}
     </body>
 </html>

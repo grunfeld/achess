@@ -1,0 +1,64 @@
+<div id="H_GAME_ZONE">
+    <div class="spacer20"></div>
+    <div class="row">
+        <div class="col-lg-2">
+            <div class="panel panel-default">
+                <div id="H_STATUS" class="panel-body"></div>
+            </div>
+        </div>
+        <div id="H_BOARD" class="col-lg-7" style="width:620px" data-token="{{ token }}" data-orientation="{{ color }}"></div>
+        <div class="col-lg-3" style="margin-left:30px">
+            <div class="panel panel-default" style="padding:10px;">
+                <div id="H_OPPN_MATERIAL_DIFF" class="panel-heading" style="padding-left:0px;padding-right:0px;height:60px;background-color:transparent;border:0"></div>
+                <div class="panel-body">
+                    <div id="H_PGN" style="overflow:auto;height:370px;width:100%;background-color:transparent;border:0;color:white"></div>
+                </div>
+                <div id="H_SELF_MATERIAL_DIFF" class="panel-heading" style="padding-left:0px;padding-right:0px;height:60px;background-color:transparent;border:0"></div>
+            </div>
+            
+            <div class="btn-group" role="group">
+                <button id="H_RESIGN_BTN" type="button" class="btn btn-lg btn-danger" data-toggle="tooltip" title="Resign">
+                    <span class="fa fa-flag" aria-hidden="true"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="spacer15"></div>
+    <div class="row">
+        <div class="col-lg-7 col-lg-offset-2">FEN: <span id="H_FEN"></span></div>
+    </div>
+    
+    <div class="modal fade" id="H_GAME_URL_POPUP" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Game URL</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Give your friend this URL:</p>
+                    <p><em><span class="text-info" id="H_GAME_URL"></span></em></p>
+                    <p>The game will start once your friend joins...</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="/" class="btn btn-danger">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="H_GAME_RESULT_POPUP" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 id="H_GAME_RESULT_TITLE" class="modal-title">Game Over</h4>
+                </div>
+                <div class="modal-body">
+                    <p id="H_GAME_RESULT"></p>
+                </div>
+                <div class="modal-footer">
+                    <a href="/" class="btn btn-danger">Chess Arena home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
