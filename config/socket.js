@@ -717,14 +717,17 @@ module.exports = function(server) {
                 socket.join(room);
                 socket.emit('casual_wait'); // tell the game creator to wait until a opponent joins the game
                 return;
+            } else if (casual_games[room].players[1].socket === null) {
+                var casual_game = casual_games[room];
+                socket.join(room);
+                casual_game.players[1].socket = socket;
+                casual_game.players[1].name   = "Anon";
+                casual_game.players[1].status = "joined";
+                casual_game.status            = "ready";
+                io.sockets.to(room).emit('casual_ready');
+            } else {
+                io.sockets.connected[socket.id].emit('casual_room_full');
             }
-            var casual_game = casual_games[room];
-            socket.join(room);
-            casual_game.players[1].socket = socket;
-            casual_game.players[1].name   = "Anon";
-            casual_game.players[1].status = "joined";
-            casual_game.status            = "ready";
-            io.sockets.to(room).emit('casual_ready');
         });
         
         socket.on('casual_move', function(data) {

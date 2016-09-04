@@ -227,6 +227,11 @@ $(document).ready(function() {
         socket.on("casual_ready", function (data) {
             $('#H_GAME_URL_POPUP').modal('hide');
         });
+        socket.on("casual_room_full", function() {
+            $('#H_GAME_RESULT_TITLE').html("Game in progress.");
+            $('#H_GAME_RESULT').html("Feature to watch other players play is not implemented yet.");
+            $('#H_GAME_RESULT_POPUP').modal({ keyboard: false, backdrop: 'static' });
+        });
         socket.on("casual_make_move", function(data) {
             var move = game.move({ from: data.source, to: data.target, promotion: data.promotion });
             if (move !== null) {
