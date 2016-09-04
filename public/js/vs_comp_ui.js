@@ -65,6 +65,7 @@ $(document).ready(function() {
         pgnEl    = $('#AI_PGN'),
         fenEl    = $('#AI_FEN'),
         color    = 'white';
+    var board_theme = 0;
 
     // Do not pick up pieces if the game is over
     // only pick up pieces for the side to move
@@ -242,6 +243,7 @@ $(document).ready(function() {
         if ($(this).hasClass("disabled"))
             return;
         board.flip();
+        ChangeBoardBackground(board_theme);
         if (color == 'white')
             color = 'black';
         else
@@ -274,10 +276,9 @@ $(document).ready(function() {
         board.position(game.fen());
         updateStatus();
     });
-    var board_theme = 0;
-    $('#AI_CHANGE_BOARD_BACKGROUND').click(function(ev) {
-        board_theme = board_theme + 1;
-        board_theme = board_theme % 3;
+    
+    // Board theme related stuff
+    function ChangeBoardBackground(board_theme) {
         switch (board_theme) {
             case 0: // chessboard.js default (brown)
                 $('#AI_BOARD .white-1e1d7').css("background-color", "#f0d9b5");
@@ -304,5 +305,11 @@ $(document).ready(function() {
                 $('#AI_BOARD .black-3c85d').css("color", "#f0d9b5");
                 break;
         }
+    }
+    
+    $('#AI_CHANGE_BOARD_BACKGROUND').click(function(ev) {
+        board_theme = board_theme + 1;
+        board_theme = board_theme % 3;
+        ChangeBoardBackground(board_theme);
     });
 });
