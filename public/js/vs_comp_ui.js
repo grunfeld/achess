@@ -274,4 +274,35 @@ $(document).ready(function() {
         board.position(game.fen());
         updateStatus();
     });
+    var board_theme = 0;
+    $('#AI_CHANGE_BOARD_BACKGROUND').click(function(ev) {
+        board_theme = board_theme + 1;
+        board_theme = board_theme % 3;
+        switch (board_theme) {
+            case 0: // chessboard.js default (brown)
+                $('#AI_BOARD .white-1e1d7').css("background-color", "#f0d9b5");
+                $('#AI_BOARD .black-3c85d').css("background-color", "#b58863");
+                $('#AI_BOARD .white-1e1d7').css("color", "#b58863");
+                $('#AI_BOARD .black-3c85d').css("color", "#f0d9b5");
+                break;
+            case 1: // blue
+                $('#AI_BOARD .white-1e1d7').css("background-color", "#dee3e6");
+                $('#AI_BOARD .black-3c85d').css("background-color", "#8ca2ad");
+                $('#AI_BOARD .white-1e1d7').css("color", "#8ca2ad");
+                $('#AI_BOARD .black-3c85d').css("color", "#dee3e6");
+                break;
+            case 2: // green
+                $('#AI_BOARD .white-1e1d7').css("background-color", "#ffffdd");
+                $('#AI_BOARD .black-3c85d').css("background-color", "#86a666");
+                $('#AI_BOARD .white-1e1d7').css("color", "#86a666");
+                $('#AI_BOARD .black-3c85d').css("color", "#ffffdd");
+                break;
+            default:
+                $('#AI_BOARD .white-1e1d7').css("background-color", "#f0d9b5");
+                $('#AI_BOARD .black-3c85d').css("background-color", "#b58863");
+                $('#AI_BOARD .white-1e1d7').css("color", "#b58863");
+                $('#AI_BOARD .black-3c85d').css("color", "#f0d9b5");
+                break;
+        }
+    });
 });

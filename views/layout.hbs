@@ -24,6 +24,16 @@
                     <li><a href="/logout" title="Logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
                 </ul>
                 {{/if}}
+                {{#if ai}}
+                <ul class="nav nav-pills pull-right">
+                    <li><label id="AI_CHANGE_BOARD_BACKGROUND" class="btn btn-default" title="Theme"><i class="fa fa-paint-brush" aria-hidden="true"></i></label></li>
+                </ul>
+                {{/if}}
+                {{#if token}}
+                <ul class="nav nav-pills pull-right">
+                    <li><label id="H_CHANGE_BOARD_BACKGROUND" class="btn btn-default" title="Theme"><i class="fa fa-paint-brush" aria-hidden="true"></i></label></li>
+                </ul>
+                {{/if}}
                 <h3>Chess Arena&nbsp;&nbsp;<a target="_blank" href="https://github.com/grunfeld/achess"><i class="fa fa-github" aria-hidden="true">&nbsp;</i></a>
                     {{#if player}}
                     <span id="ONLINE_PLAYER" data-handle="{{player.handle}}" style="color:lightgreen">&nbsp;&nbsp;[&nbsp;{{player.handle}}&nbsp;]</span>
