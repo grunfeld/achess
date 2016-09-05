@@ -184,15 +184,13 @@ $(document).ready(function() {
                 } else {
                     game.header('Result', '1-0');
                 }
-                var raw_pgn  = game.pgn();
-                var pgn_html = raw_pgn.split(']').join(']<br>'); // WOW!
+                var pgn_html = game.pgn({ newline_char: '<br />' });
                 $('#H_GAME_RESULT_TITLE').html("Game over.");
                 $('#H_GAME_RESULT').html(pgn_html);
                 $('#H_GAME_RESULT_POPUP').modal({ keyboard: false, backdrop: 'static' });
             } else if (game.in_draw() === true) {
                 game.header('Result', '1/2-1/2');
-                var raw_pgn  = game.pgn();
-                var pgn_html = raw_pgn.split(']').join(']<br>'); // WOW!
+                var pgn_html = game.pgn({ newline_char: '<br />' });
                 $('#H_GAME_RESULT_TITLE').html("Game drawn.");
                 $('#H_GAME_RESULT').html(pgn_html);
                 $('#H_GAME_RESULT_POPUP').modal({ keyboard: false, backdrop: 'static' });
@@ -240,8 +238,7 @@ $(document).ready(function() {
             }
         });
         socket.on("casual_disconnection", function(data) {
-            var raw_pgn  = game.pgn();
-            var pgn_html = raw_pgn.split(']').join(']<br>'); // WOW!
+            var pgn_html = game.pgn({ newline_char: '<br />' });
             $('#H_GAME_RESULT_TITLE').html("Game over. Opponent disconnected.");
             $('#H_GAME_RESULT').html(pgn_html);
             $('#H_GAME_RESULT_POPUP').modal({ keyboard: false, backdrop: 'static' });
@@ -252,8 +249,7 @@ $(document).ready(function() {
             } else {
                 game.header('Result', '1-0');
             }
-            var raw_pgn  = game.pgn();
-            var pgn_html = raw_pgn.split(']').join(']<br>'); // WOW!
+            var pgn_html = game.pgn({ newline_char: '<br />' });
             $('#H_GAME_RESULT_TITLE').html("Game over. " + data.color + " resigned.");
             $('#H_GAME_RESULT').html(pgn_html);
             $('#H_GAME_RESULT_POPUP').modal({ keyboard: false, backdrop: 'static' });
@@ -312,8 +308,7 @@ $(document).ready(function() {
         });
         socket.on("casual_draw", function(data) {
             game.header('Result', '1/2-1/2');
-            var raw_pgn  = game.pgn();
-            var pgn_html = raw_pgn.split(']').join(']<br>'); // WOW!
+            var pgn_html = game.pgn({ newline_char: '<br />' });
             $('#H_GAME_RESULT_TITLE').html("Game drawn by agreement.");
             $('#H_GAME_RESULT').html(pgn_html);
             $('#H_GAME_RESULT_POPUP').modal({ keyboard: false, backdrop: 'static' });
