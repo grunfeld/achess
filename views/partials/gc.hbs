@@ -37,6 +37,30 @@
     </div>
     <div class="spacer15"></div>
     <div class="row">
-        <div class="col-lg-7 col-lg-offset-2">FEN: <span id="AI_FEN"></span></div>
+        <div class="col-lg-7 col-lg-offset-2"><b>FEN:</b>&nbsp;&nbsp;&nbsp;&nbsp;<span id="AI_FEN"></span></div>
     </div>
+    
+    <div class="modal fade" id="FEN_INPUT_MODAL" tabindex="-1" role="dialog" aria-labelledby="FEN_INPUT_MODAL_LABEL">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="FEN_INPUT_MODAL_LABEL">Load position from FEN string</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="FEN_INPUT" class="control-label">FEN:</label>
+                            <input type="text" class="form-control" id="FEN_INPUT">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button id="LOAD_FEN_BTN" type="button" class="btn btn-primary">Load</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 </div>

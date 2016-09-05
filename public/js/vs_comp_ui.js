@@ -331,4 +331,37 @@ $(document).ready(function() {
         board_theme = board_theme % 3;
         ChangeBoardBackground(board_theme);
     });
+    
+    $('#LOAD_FEN_BTN').click(function() {
+        var user_fen =  $('#FEN_INPUT').val();
+        $('#FEN_INPUT_MODAL').modal("hide");
+        var trial = new Chess();
+        if (trial.load(user_fen)) {
+        var h = game.history({ verbose: true });
+            if (h.length) {
+                var last_move = h[h.length - 1];
+                var boardEl = $('#AI_BOARD');
+                boardEl.find('.square-' + last_move.from).removeClass('highlight-last-move');
+                boardEl.find('.square-' + last_move.to).removeClass('highlight-last-move');
+            }
+            if (color == 'black') {
+                color = 'white';
+                board.flip();
+                ChangeBoardBackground(board_theme);
+            }            
+            game.load(user_fen);
+            if (game.turn() == 'b') {
+                color = 'black';
+                board.flip();
+                ChangeBoardBackground(board_theme);
+            } else{
+                color = 'white';
+            }
+            board.position(game.fen());
+            updateStatus();
+        } else {
+            $('#AI_STATUS').empty();
+            $('#AI_STATUS').html('<strong>Loading FEN failed</strong>');
+        }
+    });
 });
