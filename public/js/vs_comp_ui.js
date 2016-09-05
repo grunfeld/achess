@@ -366,12 +366,14 @@ $(document).ready(function() {
             $('#AI_STATUS').html('<strong>Loading FEN failed</strong>');
         }
     });
-
+/*    
     $('#AI_DOWNLOAD_PGN_HIDDEN_FORM').submit( function(ev) {
         $('<input />').attr('type', 'hidden')
-        .attr('name', "pgns")
-        .attr('value', game.pgn({ newline_char: '\n' }))
-        .appendTo('#AI_DOWNLOAD_PGN_HIDDEN_FORM');
+                      .attr('name', "pgns")
+                      .attr('value', game.pgn({ newline_char: '\n' }))
+                      .appendTo('#AI_DOWNLOAD_PGN_HIDDEN_FORM');
+        $('#ONE_DOWNLOAD_ALLOWED').hide();
         return true;
     });
+*/
 });
