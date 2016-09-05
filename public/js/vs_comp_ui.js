@@ -366,14 +366,24 @@ $(document).ready(function() {
             $('#AI_STATUS').html('<strong>Loading FEN failed</strong>');
         }
     });
-/*    
-    $('#AI_DOWNLOAD_PGN_HIDDEN_FORM').submit( function(ev) {
-        $('<input />').attr('type', 'hidden')
-                      .attr('name', "pgns")
-                      .attr('value', game.pgn({ newline_char: '\n' }))
-                      .appendTo('#AI_DOWNLOAD_PGN_HIDDEN_FORM');
-        $('#ONE_DOWNLOAD_ALLOWED').hide();
-        return true;
+    
+    function DownLoadPGN(filename, text) {
+        // Set up the link
+        var link = document.createElement("a");
+        link.setAttribute("target", "_blank");
+        if (Blob !== undefined) {
+            var blob = new Blob([text], { type: "text/plain" });
+            link.setAttribute("href", URL.createObjectURL(blob));
+        } else {
+            link.setAttribute("href", "data:text/plain," + encodeURIComponent(text));
+        }
+        link.setAttribute("download", filename);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+    $('#AI_DOWNLOAD_PGN_FILE').click(function() {
+        $(this).blur();
+        DownLoadPGN("game_vs_gc.pgn", game.pgn({ newline_char: '\n' }));
     });
-*/
 });
