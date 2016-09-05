@@ -333,10 +333,11 @@ $(document).ready(function() {
     });
     
     $('#LOAD_FEN_BTN').click(function() {
-        var user_fen =  $('#FEN_INPUT').val();
+        var user_fen         =  $('#FEN_INPUT').val();
+        var trimmed_user_fen = user_fen.trim();
         $('#FEN_INPUT_MODAL').modal("hide");
         var trial = new Chess();
-        if (trial.load(user_fen)) {
+        if (trial.load(trimmed_user_fen)) {
         var h = game.history({ verbose: true });
             if (h.length) {
                 var last_move = h[h.length - 1];
@@ -349,7 +350,7 @@ $(document).ready(function() {
                 board.flip();
                 ChangeBoardBackground(board_theme);
             }            
-            game.load(user_fen);
+            game.load(trimmed_user_fen);
             if (game.turn() == 'b') {
                 color = 'black';
                 board.flip();

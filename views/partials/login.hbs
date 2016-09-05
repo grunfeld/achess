@@ -3,7 +3,7 @@
     <input type="text" id="PLAYER_HANDLE" name="handle" class="form-control" placeholder="Handle" required autofocus>
     <label for="PLAYER_PASSWORD" class="sr-only">Password</label>
     <input type="password" id="PLAYER_PASSWORD" name="password" class="form-control" placeholder="Password" required>
-    <button class="btn btn-lg btn-default btn-block" type="submit">Log in</button>
+    <button class="btn btn-lg btn-default btn-block" type="submit">Tournament login</button>
 </form>
 <div class="text-center">
     <div class="spacer10"></div>
@@ -13,10 +13,10 @@
     <div class="spacer30"></div>
 
     <form action = "/casual" method = "post">
-        <span style="font-size:18px">Casual game Vs.&nbsp;</span> 
-        <button class="btn btn-lg btn-default" type="submit" name="oppn" value="ai" data-toggle="tooltip" title="Vs. Garbochess"><i class="fa fa-laptop" aria-hidden="true"></i></button>
+        <span style="font-size:18px">Play Vs.&nbsp;</span> 
+        <button class="btn btn-lg btn-default" type="submit" name="oppn" value="ai" data-toggle="tooltip" title="Play Vs. Garbochess"><i class="fa fa-laptop" aria-hidden="true"></i></button>
         <div class="btn-group" role="group">
-            <button class="btn btn-lg btn-default" type="submit" name="oppn" value="hw" data-toggle="tooltip" title="As White Vs. Friend"><i class="fa fa-user" aria-hidden="true"></i></button>
+            <button class="btn btn-lg btn-default" type="submit" name="oppn" value="hw" data-toggle="tooltip" title="As White Vs. Friend"><i class="fa fa-user fa-inverse" aria-hidden="true"></i></button>
             <button class="btn btn-lg btn-default" type="submit" name="oppn" value="hb" data-toggle="tooltip" title="As Black Vs. Friend"><span style="color:black"><i class="fa fa-user" aria-hidden="true"></i></span></button>
         </div>
     </form>
