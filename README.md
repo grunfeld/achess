@@ -56,6 +56,7 @@ $ node achess.js
 1. [chess.js](https://github.com/jhlywa/chess.js)
 2. [chessboard.js](http://chessboardjs.com/)
 3. [gamehub.io](https://github.com/benas/gamehub.io)
-4. [realchess](https://github.com/dwcares/realchess)
+4. [Garbochess JS](https://github.com/glinscott/Garbochess-JS)
+5. [realchess](https://github.com/dwcares/realchess)
 
 The project was inspired by [lichess.org](https://en.lichess.org/)'s tournament format.

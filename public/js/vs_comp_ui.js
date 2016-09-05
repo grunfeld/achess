@@ -277,6 +277,25 @@ $(document).ready(function() {
         updateStatus();
     });
     
+    $('#AI_RESIGN_BTN').click(function() {
+        $(this).blur();
+        var h = game.history({ verbose: true });
+        if (h.length) {
+            var last_move = h[h.length - 1];
+            var boardEl = $('#AI_BOARD');
+            boardEl.find('.square-' + last_move.from).removeClass('highlight-last-move');
+            boardEl.find('.square-' + last_move.to).removeClass('highlight-last-move');
+        }
+        game.reset();
+        if (color == 'black') {
+            color = 'white';
+            board.flip();
+            ChangeBoardBackground(board_theme);
+        }
+        board.position(game.fen());
+        updateStatus();
+    });
+    
     // Board theme related stuff
     function ChangeBoardBackground(board_theme) {
         switch (board_theme) {
