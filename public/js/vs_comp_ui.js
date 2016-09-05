@@ -147,7 +147,7 @@ $(document).ready(function() {
             }
         }
         statusEl.html(status);
-        pgnEl.html(game.pgn({max_width: 5, newline_char: '<br />'}));
+        pgnEl.html(game.pgn({ max_width: 5, newline_char: '<br />' }));
         pgnEl.animate({scrollTop: 10000}); // scroll down to the last move
         fenEl.html(game.fen());
         
@@ -287,6 +287,7 @@ $(document).ready(function() {
             boardEl.find('.square-' + last_move.to).removeClass('highlight-last-move');
         }
         game.reset();
+        game.header('Event', 'Casual Game', 'Site', 'Chess Arena', 'Date', '?', 'Round', '?', 'White', '?', 'Black', '?', 'Result', '*');
         if (color == 'black') {
             color = 'white';
             board.flip();
@@ -364,5 +365,13 @@ $(document).ready(function() {
             $('#AI_STATUS').empty();
             $('#AI_STATUS').html('<strong>Loading FEN failed</strong>');
         }
+    });
+
+    $('#AI_DOWNLOAD_PGN_HIDDEN_FORM').submit( function(ev) {
+        $('<input />').attr('type', 'hidden')
+        .attr('name', "pgns")
+        .attr('value', game.pgn({ newline_char: '\n' }))
+        .appendTo('#AI_DOWNLOAD_PGN_HIDDEN_FORM');
+        return true;
     });
 });
