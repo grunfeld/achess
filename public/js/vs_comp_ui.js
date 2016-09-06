@@ -109,7 +109,8 @@ $(document).ready(function() {
         board.clear(false);
         board.position(game.fen());
         updateStatus();
-        
+        if (game.game_over() === true)
+            return;
         $('#AI_SWITCH_SIDES_BTN').addClass("disabled");
         $('#AI_TAKEBACK_BTN').addClass("disabled");
         $('#AI_RESIGN_BTN').addClass("disabled");
@@ -242,6 +243,8 @@ $(document).ready(function() {
         $(this).blur();
         if ($(this).hasClass("disabled"))
             return;
+        if (game.game_over() === true)
+            return;
         board.flip();
         ChangeBoardBackground(board_theme);
         if (color == 'white')
@@ -263,16 +266,27 @@ $(document).ready(function() {
     $('#AI_TAKEBACK_BTN').click(function() {
         $(this).blur();
         var h = game.history({ verbose: true });
-        if (h.length < 2) // Cannot takeback opponent's move
+        if (h.length < 1)
             return;
-        if (h.length) {
-            var last_move = h[h.length - 1];
-            var boardEl = $('#AI_BOARD');
-            boardEl.find('.square-' + last_move.from).removeClass('highlight-last-move');
-            boardEl.find('.square-' + last_move.to).removeClass('highlight-last-move');
+
+        // Remove the last-move highlight
+        var last_move = h[h.length - 1];
+        var boardEl = $('#AI_BOARD');
+        boardEl.find('.square-' + last_move.from).removeClass('highlight-last-move');
+        boardEl.find('.square-' + last_move.to).removeClass('highlight-last-move');
+        
+        if (h.length < 2) { // This takeback switches sides (maybe needed for FEN setup)
+            game.undo(); // opponent's move
+            if (color == 'black')
+                color = 'white';
+            else
+                color = 'black';
+            board.flip();
+            ChangeBoardBackground(board_theme);
+        } else {
+            game.undo(); // opponent's move
+            game.undo(); // your last move
         }
-        game.undo(); // opponent's move
-        game.undo(); // your last move
         board.position(game.fen());
         updateStatus();
     });
