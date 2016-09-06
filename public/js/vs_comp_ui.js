@@ -291,8 +291,16 @@ $(document).ready(function() {
         updateStatus();
     });
     
+    var last_game_pgn; // Used for download from the modal
     $('#AI_RESIGN_BTN').click(function() {
         $(this).blur();
+        // Show the game-result modal allow which allows pgn to be downloaded
+        var pgn_html  = game.pgn({ newline_char: '<br />' });
+        last_game_pgn = game.pgn({ newline_char: '\n' });
+        $('#AI_GAME_RESULT_TITLE').html("Game over.");
+        $('#AI_GAME_RESULT').html(pgn_html);
+        $('#AI_GAME_RESULT_POPUP').modal({ keyboard: false, backdrop: 'static' });
+        
         var h = game.history({ verbose: true });
         if (h.length) {
             var last_move = h[h.length - 1];
@@ -396,8 +404,12 @@ $(document).ready(function() {
         link.click();
         document.body.removeChild(link);
     }
-    $('#AI_DOWNLOAD_PGN_FILE').click(function() {
+    $('#AI_DOWNLOAD_PGN_FILE_BTN').click(function() {
         $(this).blur();
         DownLoadPGN("game_vs_gc.pgn", game.pgn({ newline_char: '\n' }));
+    });
+    $('#AI_DOWNLOAD_PGN_FILE_MODAL_BTN').click(function() {
+        $(this).blur();
+        DownLoadPGN("game_vs_gc.pgn", last_game_pgn);
     });
 });

@@ -383,5 +383,9 @@ $(document).ready(function() {
             $(this).blur();
             DownLoadPGN("casual_game.pgn", game.pgn({ newline_char: '\n' }));
         });
+        $('#H_DOWNLOAD_PGN_FILE_MODAL_BTN').click(function() {
+            $(this).blur();
+            DownLoadPGN("casual_game.pgn", game.pgn({ newline_char: '\n' }));
+        });
     }
 });

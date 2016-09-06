@@ -33,7 +33,7 @@
                 </button>
             </div>
             <div class="btn-group" role="group">
-                <button id="AI_DOWNLOAD_PGN_FILE" class="btn btn-lg btn-default" type="button" title="Download PGN"><i class="fa fa-download" aria-hidden="true"></i></button>
+                <button id="AI_DOWNLOAD_PGN_FILE_BTN" class="btn btn-lg btn-default" type="button" title="Download PGN"><i class="fa fa-download" aria-hidden="true"></i></button>
             </div>
         </div>
     </div>
@@ -65,4 +65,21 @@
         </div>
     </div>
     
+    <div class="modal fade" id="AI_GAME_RESULT_POPUP" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 id="AI_GAME_RESULT_TITLE" class="modal-title">Game Over</h4>
+                </div>
+                <div class="modal-body">
+                    <p id="AI_GAME_RESULT"></p>
+                </div>
+                <div class="modal-footer">
+                    <button id="AI_DOWNLOAD_PGN_FILE_MODAL_BTN" type="button" class="btn btn-default" title="Download PGN"><i class="fa fa-download" aria-hidden="true"></i> Download PGN</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Dismiss</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
