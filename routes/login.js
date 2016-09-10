@@ -2,6 +2,7 @@ var express  = require('express');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var _        = require('lodash');
+var isMobile = require('ismobilejs');
 
 var PlayerDB = mongoose.model('PlayerDB');
 var router   = express.Router();
@@ -20,13 +21,18 @@ router.post('/',
             if (req.user.handle === "admin") {
                 res.redirect('/admin');
             } else {
-                //res.redirect('/arena');
-                res.render('partials/arena', {
-                    title        : 'Chess Arena',
-                    player       : req.user, // The html page layout.bhs extracts .handle attribute
-                    player_rating: _.floor(player_db.rating_obj.rating),
-                    player_rd    : _.floor(player_db.rating_obj.rd)
-                });
+                if (isMobile.any) {
+                    res.render('partials/nomobile', {
+                        title: 'Chess Arena Mobile'
+                    });
+                } else {
+                    res.render('partials/arena', {
+                        title        : 'Chess Arena',
+                        player       : req.user, // The html page layout.bhs extracts .handle attribute
+                        player_rating: _.floor(player_db.rating_obj.rating),
+                        player_rd    : _.floor(player_db.rating_obj.rd)
+                    });
+                }
             }
         });
  });

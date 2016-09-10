@@ -23,6 +23,7 @@
     "fs": "0.0.2",
     "glicko2": "^0.8.4",
     "hbs": "^4.0.0",
+    "ismobilejs": "^0.4.0",
     "lodash": "^4.14.1",
     "moment": "^2.14.1",
     "moment-timezone": "^0.5.5",
