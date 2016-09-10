@@ -1,8 +1,8 @@
-var express  = require('express');
-var mongoose = require('mongoose');
-var passport = require('passport');
-var _        = require('lodash');
-var isMobile = require('ismobilejs');
+var express      = require('express');
+var mongoose     = require('mongoose');
+var passport     = require('passport');
+var _            = require('lodash');
+var MobileDetect = require('mobile-detect');
 
 var PlayerDB = mongoose.model('PlayerDB');
 var router   = express.Router();
@@ -21,7 +21,8 @@ router.post('/',
             if (req.user.handle === "admin") {
                 res.redirect('/admin');
             } else {
-                if (isMobile.phone || isMobile.tablet || isMobile.seven_inch) {
+                var md = new MobileDetect(req.headers['user-agent']);
+                if (md.phone() != null || md.tablet() != null || md.mobile() != null) {
                     res.render('partials/nomobile', {
                         title: 'Chess Arena Mobile'
                     });
