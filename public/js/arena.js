@@ -269,39 +269,40 @@ $(document).ready(function() {
         }
         $('#SELF_MATERIAL_DIFF').empty();
         $('#OPPN_MATERIAL_DIFF').empty();
+        var diff = 0;
         if (wp > bp) {
-            var diff = wp - bp;
+            diff = wp - bp;
             $('#SELF_MATERIAL_DIFF').prepend('<img src="img/chesspieces/regular/bp.svg" height="28" />&times;' + diff.toString());
         } else if (bp > wp) {
-            var diff = bp - wp;
+            diff = bp - wp;
             $('#OPPN_MATERIAL_DIFF').prepend('<img src="img/chesspieces/regular/bp.svg" height="28" />&times;' + diff.toString());
         }
         if (wn > bn) {
-            var diff = wn - bn;
+            diff = wn - bn;
             $('#SELF_MATERIAL_DIFF').prepend('<img src="img/chesspieces/regular/bn.svg" height="28" />&times;' + diff.toString());
         } else if (bn > wn) {
-            var diff = bn - wn;
+            diff = bn - wn;
             $('#OPPN_MATERIAL_DIFF').prepend('<img src="img/chesspieces/regular/bn.svg" height="28" />&times;' + diff.toString());
         }
         if (wb > bb) {
-            var diff = wb - bb;
+            diff = wb - bb;
             $('#SELF_MATERIAL_DIFF').prepend('<img src="img/chesspieces/regular/bb.svg" height="28" />&times;' + diff.toString());
         } else if (bb > wb) {
-            var diff = bb - wb;
+            diff = bb - wb;
             $('#OPPN_MATERIAL_DIFF').prepend('<img src="img/chesspieces/regular/bb.svg" height="28" />&times;' + diff.toString());
         }
         if (wr > br) {
-            var diff = wr - br;
+            diff = wr - br;
             $('#SELF_MATERIAL_DIFF').prepend('<img src="img/chesspieces/regular/br.svg" height="28" />&times;' + diff.toString());
         } else if (br > wr) {
-            var diff = br - wr;
+            diff = br - wr;
             $('#OPPN_MATERIAL_DIFF').prepend('<img src="img/chesspieces/regular/br.svg" height="28" />&times;' + diff.toString());
         }
         if (wq > bq) {
-            var diff = wq - bq;
+            diff = wq - bq;
             $('#SELF_MATERIAL_DIFF').prepend('<img src="img/chesspieces/regular/bq.svg" height="28" />&times;' + diff.toString());
         } else if (bq > wq) {
-            var diff = bq - wq;
+            diff = bq - wq;
             $('#OPPN_MATERIAL_DIFF').prepend('<img src="img/chesspieces/regular/bq.svg" height="28" />&times;' + diff.toString());
         }
         

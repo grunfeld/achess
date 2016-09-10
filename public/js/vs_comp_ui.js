@@ -4,6 +4,22 @@ function CharsInAString(str, ch) {
 
 $(document).ready(function() {
 
+    function DownLoadPGN(filename, text) {
+        // Set up the link
+        var link = document.createElement("a");
+        link.setAttribute("target", "_blank");
+        if (Blob !== undefined) {
+            var blob = new Blob([text], { type: "text/plain" });
+            link.setAttribute("href", URL.createObjectURL(blob));
+        } else {
+            link.setAttribute("href", "data:text/plain," + encodeURIComponent(text));
+        }
+        link.setAttribute("download", filename);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
 //--------------------------------------------------------------------------
     g_timeout = 5000;
     function EnsureAnalysisStopped() {
@@ -66,7 +82,8 @@ $(document).ready(function() {
         fenEl    = $('#AI_FEN'),
         color    = 'white';
     var board_theme = 0;
-
+    var last_game_pgn; // Used for downloading pgn from the modal
+    
     // Do not pick up pieces if the game is over
     // only pick up pieces for the side to move
     var onDragStart = function(source, piece, position, orientation) {
@@ -154,15 +171,14 @@ $(document).ready(function() {
         
         // Hightlight the last move
         var h = game.history({ verbose: true });
+        var boardEl = $('#AI_BOARD');
         if (h.length > 1) {
             var last_but_one_move = h[h.length - 2];
-            var boardEl = $('#AI_BOARD');
             boardEl.find('.square-' + last_but_one_move.from).removeClass('highlight-last-move');
             boardEl.find('.square-' + last_but_one_move.to).removeClass('highlight-last-move');
         }
         if (h.length) {
             var last_move = h[h.length - 1];
-            var boardEl = $('#AI_BOARD');
             boardEl.find('.square-' + last_move.from).addClass('highlight-last-move');
             boardEl.find('.square-' + last_move.to).addClass('highlight-last-move');
         }
@@ -189,40 +205,84 @@ $(document).ready(function() {
         }
         $('#AI_SELF_MATERIAL_DIFF').empty();
         $('#AI_OPPN_MATERIAL_DIFF').empty();
+        var diff = 0;
         if (wp > bp) {
-            var diff = wp - bp;
+            diff = wp - bp;
             $('#AI_SELF_MATERIAL_DIFF').prepend('<img src="../img/chesspieces/regular/bp.svg" height="28" />&times;' + diff.toString());
         } else if (bp > wp) {
-            var diff = bp - wp;
+            diff = bp - wp;
             $('#AI_OPPN_MATERIAL_DIFF').prepend('<img src="../img/chesspieces/regular/bp.svg" height="28" />&times;' + diff.toString());
         }
         if (wn > bn) {
-            var diff = wn - bn;
+            diff = wn - bn;
             $('#AI_SELF_MATERIAL_DIFF').prepend('<img src="../img/chesspieces/regular/bn.svg" height="28" />&times;' + diff.toString());
         } else if (bn > wn) {
-            var diff = bn - wn;
+            diff = bn - wn;
             $('#AI_OPPN_MATERIAL_DIFF').prepend('<img src="../img/chesspieces/regular/bn.svg" height="28" />&times;' + diff.toString());
         }
         if (wb > bb) {
-            var diff = wb - bb;
+            diff = wb - bb;
             $('#AI_SELF_MATERIAL_DIFF').prepend('<img src="../img/chesspieces/regular/bb.svg" height="28" />&times;' + diff.toString());
         } else if (bb > wb) {
-            var diff = bb - wb;
+            diff = bb - wb;
             $('#AI_OPPN_MATERIAL_DIFF').prepend('<img src="../img/chesspieces/regular/bb.svg" height="28" />&times;' + diff.toString());
         }
         if (wr > br) {
-            var diff = wr - br;
+            diff = wr - br;
             $('#AI_SELF_MATERIAL_DIFF').prepend('<img src="../img/chesspieces/regular/br.svg" height="28" />&times;' + diff.toString());
         } else if (br > wr) {
-            var diff = br - wr;
+            diff = br - wr;
             $('#AI_OPPN_MATERIAL_DIFF').prepend('<img src="../img/chesspieces/regular/br.svg" height="28" />&times;' + diff.toString());
         }
         if (wq > bq) {
-            var diff = wq - bq;
+            diff = wq - bq;
             $('#AI_SELF_MATERIAL_DIFF').prepend('<img src="../img/chesspieces/regular/bq.svg" height="28" />&times;' + diff.toString());
         } else if (bq > wq) {
-            var diff = bq - wq;
+            diff = bq - wq;
             $('#AI_OPPN_MATERIAL_DIFF').prepend('<img src="../img/chesspieces/regular/bq.svg" height="28" />&times;' + diff.toString());
+        }
+        
+        var game_is_over = false;
+        if (game.in_checkmate() === true) {
+            if (game.turn() === 'w') {
+                game.header('Result', '0-1');
+            } else {
+                game.header('Result', '1-0');
+            }
+            var pgn_html  = game.pgn({ newline_char: '<br />' });
+            last_game_pgn = game.pgn({ newline_char: '\n' });
+            $('#AI_GAME_RESULT_TITLE').html("Game over.");
+            $('#AI_GAME_RESULT').html(pgn_html);
+            $('#AI_GAME_RESULT_POPUP').modal({ keyboard: false, backdrop: 'static' });
+            game_is_over = true;
+        } else if (game.in_draw() === true) {
+            game.header('Result', '1/2-1/2');
+            var pgn_html  = game.pgn({ newline_char: '<br />' });
+            last_game_pgn = game.pgn({ newline_char: '\n' });
+            $('#AI_GAME_RESULT_TITLE').html("Game drawn.");
+            $('#AI_GAME_RESULT').html(pgn_html);
+            $('#AI_GAME_RESULT_POPUP').modal({ keyboard: false, backdrop: 'static' });
+            game_is_over = true;
+        }
+        
+        if (game_is_over === true) {
+            // Setup the board for the next game
+            var h = game.history({ verbose: true });
+            if (h.length) {
+                var last_move = h[h.length - 1];
+                var boardEl = $('#AI_BOARD');
+                boardEl.find('.square-' + last_move.from).removeClass('highlight-last-move');
+                boardEl.find('.square-' + last_move.to).removeClass('highlight-last-move');
+            }
+            game.reset();
+            game.header('Event', 'Casual Game', 'Site', 'Chess Arena', 'Date', '?', 'Round', '?', 'White', '?', 'Black', '?', 'Result', '*');
+            if (color == 'black') {
+                color = 'white';
+                board.flip();
+                ChangeBoardBackground(board_theme);
+            }
+            board.position(game.fen());
+            updateStatus();
         }
     };
 
@@ -293,7 +353,6 @@ $(document).ready(function() {
         updateStatus();
     });
     
-    var last_game_pgn; // Used for download from the modal
     $('#AI_RESIGN_BTN').click(function() {
         $(this).blur();
         if ($(this).hasClass("disabled"))
@@ -393,21 +452,6 @@ $(document).ready(function() {
         }
     });
     
-    function DownLoadPGN(filename, text) {
-        // Set up the link
-        var link = document.createElement("a");
-        link.setAttribute("target", "_blank");
-        if (Blob !== undefined) {
-            var blob = new Blob([text], { type: "text/plain" });
-            link.setAttribute("href", URL.createObjectURL(blob));
-        } else {
-            link.setAttribute("href", "data:text/plain," + encodeURIComponent(text));
-        }
-        link.setAttribute("download", filename);
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
     $('#AI_DOWNLOAD_PGN_FILE_BTN').click(function() {
         $(this).blur();
         DownLoadPGN("game_vs_gc.pgn", game.pgn({ newline_char: '\n' }));

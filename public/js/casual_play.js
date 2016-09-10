@@ -11,8 +11,23 @@ $(document).ready(function() {
         });
         $('#H_CHAT').animate({scrollTop: height});        
     }
+    function DownLoadPGN(filename, text) {
+        // Set up the link
+        var link = document.createElement("a");
+        link.setAttribute("target", "_blank");
+        if (Blob !== undefined) {
+            var blob = new Blob([text], { type: "text/plain" });
+            link.setAttribute("href", URL.createObjectURL(blob));
+        } else {
+            link.setAttribute("href", "data:text/plain," + encodeURIComponent(text));
+        }
+        link.setAttribute("download", filename);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
     
-    //var base_url = 'http://localhost:3333'
+    //var base_url = 'http://localhost:3333';
     var base_url = 'https://chess-arena.herokuapp.com';
     var socket = io.connect(base_url);
 
@@ -105,16 +120,15 @@ $(document).ready(function() {
             fenEl.html(game.fen());
             
             // Hightlight the last move
-            var h = game.history({ verbose: true });
+            var h       = game.history({ verbose: true });
+            var boardEl = $('#H_BOARD');
             if (h.length > 1) {
                 var last_but_one_move = h[h.length - 2];
-                var boardEl = $('#H_BOARD');
                 boardEl.find('.square-' + last_but_one_move.from).removeClass('highlight-last-move');
                 boardEl.find('.square-' + last_but_one_move.to).removeClass('highlight-last-move');
             }
             if (h.length) {
                 var last_move = h[h.length - 1];
-                var boardEl = $('#H_BOARD');
                 boardEl.find('.square-' + last_move.from).addClass('highlight-last-move');
                 boardEl.find('.square-' + last_move.to).addClass('highlight-last-move');
             }
@@ -141,39 +155,40 @@ $(document).ready(function() {
             }
             $('#H_SELF_MATERIAL_DIFF').empty();
             $('#H_OPPN_MATERIAL_DIFF').empty();
+            var diff = 0;
             if (wp > bp) {
-                var diff = wp - bp;
+                diff = wp - bp;
                 $('#H_SELF_MATERIAL_DIFF').prepend('<img src="../../../img/chesspieces/regular/bp.svg" height="28" />&times;' + diff.toString());
             } else if (bp > wp) {
-                var diff = bp - wp;
+                diff = bp - wp;
                 $('#H_OPPN_MATERIAL_DIFF').prepend('<img src="../../../img/chesspieces/regular/bp.svg" height="28" />&times;' + diff.toString());
             }
             if (wn > bn) {
-                var diff = wn - bn;
+                diff = wn - bn;
                 $('#H_SELF_MATERIAL_DIFF').prepend('<img src="../../../img/chesspieces/regular/bn.svg" height="28" />&times;' + diff.toString());
             } else if (bn > wn) {
-                var diff = bn - wn;
+                diff = bn - wn;
                 $('#H_OPPN_MATERIAL_DIFF').prepend('<img src="../../../img/chesspieces/regular/bn.svg" height="28" />&times;' + diff.toString());
             }
             if (wb > bb) {
-                var diff = wb - bb;
+                diff = wb - bb;
                 $('#H_SELF_MATERIAL_DIFF').prepend('<img src="../../../img/chesspieces/regular/bb.svg" height="28" />&times;' + diff.toString());
             } else if (bb > wb) {
-                var diff = bb - wb;
+                diff = bb - wb;
                 $('#H_OPPN_MATERIAL_DIFF').prepend('<img src="../../../img/chesspieces/regular/bb.svg" height="28" />&times;' + diff.toString());
             }
             if (wr > br) {
-                var diff = wr - br;
+                diff = wr - br;
                 $('#H_SELF_MATERIAL_DIFF').prepend('<img src="../../../img/chesspieces/regular/br.svg" height="28" />&times;' + diff.toString());
             } else if (br > wr) {
-                var diff = br - wr;
+                diff = br - wr;
                 $('#H_OPPN_MATERIAL_DIFF').prepend('<img src="../../../img/chesspieces/regular/br.svg" height="28" />&times;' + diff.toString());
             }
             if (wq > bq) {
-                var diff = wq - bq;
+                diff = wq - bq;
                 $('#H_SELF_MATERIAL_DIFF').prepend('<img src="../../../img/chesspieces/regular/bq.svg" height="28" />&times;' + diff.toString());
             } else if (bq > wq) {
-                var diff = bq - wq;
+                diff = bq - wq;
                 $('#H_OPPN_MATERIAL_DIFF').prepend('<img src="../../../img/chesspieces/regular/bq.svg" height="28" />&times;' + diff.toString());
             }
             
@@ -364,21 +379,6 @@ $(document).ready(function() {
             }
         });
 
-        function DownLoadPGN(filename, text) {
-            // Set up the link
-            var link = document.createElement("a");
-            link.setAttribute("target", "_blank");
-            if (Blob !== undefined) {
-                var blob = new Blob([text], { type: "text/plain" });
-                link.setAttribute("href", URL.createObjectURL(blob));
-            } else {
-                link.setAttribute("href", "data:text/plain," + encodeURIComponent(text));
-            }
-            link.setAttribute("download", filename);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
         $('#H_DOWNLOAD_PGN_FILE').click(function() {
             $(this).blur();
             DownLoadPGN("casual_game.pgn", game.pgn({ newline_char: '\n' }));
