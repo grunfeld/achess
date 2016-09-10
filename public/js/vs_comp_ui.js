@@ -208,38 +208,38 @@ $(document).ready(function() {
         var diff = 0;
         if (wp > bp) {
             diff = wp - bp;
-            $('#AI_SELF_MATERIAL_DIFF').prepend('<img src="../img/chesspieces/regular/bp.svg" height="28" />&times;' + diff.toString());
+            $('#AI_SELF_MATERIAL_DIFF').prepend('<img src="img/chesspieces/regular/bp.svg" alt="P" height="28" />&times;' + diff.toString());
         } else if (bp > wp) {
             diff = bp - wp;
-            $('#AI_OPPN_MATERIAL_DIFF').prepend('<img src="../img/chesspieces/regular/bp.svg" height="28" />&times;' + diff.toString());
+            $('#AI_OPPN_MATERIAL_DIFF').prepend('<img src="img/chesspieces/regular/bp.svg" alt="P" height="28" />&times;' + diff.toString());
         }
         if (wn > bn) {
             diff = wn - bn;
-            $('#AI_SELF_MATERIAL_DIFF').prepend('<img src="../img/chesspieces/regular/bn.svg" height="28" />&times;' + diff.toString());
+            $('#AI_SELF_MATERIAL_DIFF').prepend('<img src="img/chesspieces/regular/bn.svg" alt="N" height="28" />&times;' + diff.toString());
         } else if (bn > wn) {
             diff = bn - wn;
-            $('#AI_OPPN_MATERIAL_DIFF').prepend('<img src="../img/chesspieces/regular/bn.svg" height="28" />&times;' + diff.toString());
+            $('#AI_OPPN_MATERIAL_DIFF').prepend('<img src="img/chesspieces/regular/bn.svg" alt="N" height="28" />&times;' + diff.toString());
         }
         if (wb > bb) {
             diff = wb - bb;
-            $('#AI_SELF_MATERIAL_DIFF').prepend('<img src="../img/chesspieces/regular/bb.svg" height="28" />&times;' + diff.toString());
+            $('#AI_SELF_MATERIAL_DIFF').prepend('<img src="img/chesspieces/regular/bb.svg" alt="B" height="28" />&times;' + diff.toString());
         } else if (bb > wb) {
             diff = bb - wb;
-            $('#AI_OPPN_MATERIAL_DIFF').prepend('<img src="../img/chesspieces/regular/bb.svg" height="28" />&times;' + diff.toString());
+            $('#AI_OPPN_MATERIAL_DIFF').prepend('<img src="img/chesspieces/regular/bb.svg" alt="B" height="28" />&times;' + diff.toString());
         }
         if (wr > br) {
             diff = wr - br;
-            $('#AI_SELF_MATERIAL_DIFF').prepend('<img src="../img/chesspieces/regular/br.svg" height="28" />&times;' + diff.toString());
+            $('#AI_SELF_MATERIAL_DIFF').prepend('<img src="img/chesspieces/regular/br.svg" alt="R" height="28" />&times;' + diff.toString());
         } else if (br > wr) {
             diff = br - wr;
-            $('#AI_OPPN_MATERIAL_DIFF').prepend('<img src="../img/chesspieces/regular/br.svg" height="28" />&times;' + diff.toString());
+            $('#AI_OPPN_MATERIAL_DIFF').prepend('<img src="img/chesspieces/regular/br.svg" alt="R" height="28" />&times;' + diff.toString());
         }
         if (wq > bq) {
             diff = wq - bq;
-            $('#AI_SELF_MATERIAL_DIFF').prepend('<img src="../img/chesspieces/regular/bq.svg" height="28" />&times;' + diff.toString());
+            $('#AI_SELF_MATERIAL_DIFF').prepend('<img src="img/chesspieces/regular/bq.svg" alt="Q" height="28" />&times;' + diff.toString());
         } else if (bq > wq) {
             diff = bq - wq;
-            $('#AI_OPPN_MATERIAL_DIFF').prepend('<img src="../img/chesspieces/regular/bq.svg" height="28" />&times;' + diff.toString());
+            $('#AI_OPPN_MATERIAL_DIFF').prepend('<img src="img/chesspieces/regular/bq.svg" alt="Q" height="28" />&times;' + diff.toString());
         }
         
         var game_is_over = false;
