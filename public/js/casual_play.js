@@ -11,6 +11,7 @@ $(document).ready(function() {
         });
         $('#H_CHAT').animate({scrollTop: height});        
     }
+
     function DownLoadPGN(filename, text) {
         // Set up the link
         var link = document.createElement("a");

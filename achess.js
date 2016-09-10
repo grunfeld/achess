@@ -54,7 +54,6 @@ app.use('/login',    require('./routes/login'));
 app.use('/register', require('./routes/register'));
 app.use('/arena',    require('./routes/arena'));
 app.use('/admin',    require('./routes/admin'));
-app.use('/dpgn',     require('./routes/download'));
 app.use('/logout',   require('./routes/logout'));
 app.use('/ai',       require('./routes/gc'));
 app.use('/casual',   require('./routes/casual'));

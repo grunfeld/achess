@@ -36,6 +36,22 @@ $(document).ready(function() {
         });
         $('#CHAT').animate({scrollTop: height});        
     }
+
+    function DownLoadPGN(filename, text) {
+        // Set up the link
+        var link = document.createElement("a");
+        link.setAttribute("target", "_blank");
+        if (Blob !== undefined) {
+            var blob = new Blob([text], { type: "text/plain" });
+            link.setAttribute("href", URL.createObjectURL(blob));
+        } else {
+            link.setAttribute("href", "data:text/plain," + encodeURIComponent(text));
+        }
+        link.setAttribute("download", filename);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
     
     //var socket = io.connect('http://localhost:3333');
     var socket = io.connect('https://chess-arena.herokuapp.com');
@@ -100,13 +116,10 @@ $(document).ready(function() {
                 }
             }
         }
-        
-        $('#PGN_HIDDEN_FORM').submit( function(eventObj) {
-            $('<input />').attr('type', 'hidden')
-            .attr('name', "pgns")
-            .attr('value', data.pgns)
-            .appendTo('#PGN_HIDDEN_FORM');
-            return true;
+
+        $('#TOURNAMENT_GAMES_DOWNLOAD_BTN').click(function() {
+            $(this).blur();
+            DownLoadPGN("chess_arena_games.pgn", data.pgns);
         });
 
         if (typeof(Storage) !== "undefined")
