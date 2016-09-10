@@ -21,7 +21,7 @@ router.post('/',
             if (req.user.handle === "admin") {
                 res.redirect('/admin');
             } else {
-                if (isMobile.any) {
+                if (isMobile.phone || isMobile.tablet || isMobile.seven_inch) {
                     res.render('partials/nomobile', {
                         title: 'Chess Arena Mobile'
                     });
