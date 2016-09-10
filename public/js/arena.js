@@ -49,7 +49,8 @@ $(document).ready(function() {
     // [Tournament related events (player not involved)] ------------------------------
     // This event comes from the admin login
     $('#START_TOURNAMENT_BTN').click(function() {
-        
+        if ($(this).hasClass("disabled"))
+            return;
         var duration  = $('#DURATION_SEL').find(":selected").val();
         var base_time = $('#BASE_TIME_SEL').find(":selected").val(); 
         var increment = $('#INCREMENT_SEL').find(":selected").val();
@@ -60,6 +61,14 @@ $(document).ready(function() {
                                           increment: increment
                                         });
     });
+    if ($('#START_TOURNAMENT_BTN').length) {
+        socket.emit("get_tournament_status");
+        socket.on("tournament_status", function(data) {
+            if (data.status === "in_progress") {
+                $('#START_TOURNAMENT_BTN').addClass("disabled");
+            }
+        });
+    }
     
     // Fired after tournament_clock (socket.js) expires
     socket.on("tournament_ended", function(data) {

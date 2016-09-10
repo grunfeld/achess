@@ -803,5 +803,10 @@ module.exports = function(server) {
                 io.sockets.to(room).emit('casual_chat_out', { who: data.who, msg: data.msg });
             }
         });
+
+        // admin page update
+        socket.on("get_tournament_status", function() {
+            socket.emit('tournament_status', { status: tournament_state });
+        });
     });
 };

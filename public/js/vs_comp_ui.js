@@ -265,6 +265,8 @@ $(document).ready(function() {
     
     $('#AI_TAKEBACK_BTN').click(function() {
         $(this).blur();
+        if ($(this).hasClass("disabled"))
+            return;
         var h = game.history({ verbose: true });
         if (h.length < 1)
             return;
@@ -294,6 +296,8 @@ $(document).ready(function() {
     var last_game_pgn; // Used for download from the modal
     $('#AI_RESIGN_BTN').click(function() {
         $(this).blur();
+        if ($(this).hasClass("disabled"))
+            return;
         // Show the game-result modal allow which allows pgn to be downloaded
         var pgn_html  = game.pgn({ newline_char: '<br />' });
         last_game_pgn = game.pgn({ newline_char: '\n' });
