@@ -454,10 +454,8 @@ $(document).ready(function() {
         $('#GAME_RESULT_DIV').show();
         $('#GAME_RESULT').html(data.result + ' ' + data.info + '<br>You will re-join the Arena in 30 seconds...<br>');
         $('#GAME_PGN').html(data.pgn);
-        var final_pos = ChessBoard('FINAL_POSITION',
-                                   { draggable: false, position: data.fen, showNotation: true, orientation : data.color, pieceTheme: 'img/chesspieces/merida/{piece}.svg' });
-        
-    
+        var final_pos   = ChessBoard('FINAL_POSITION', 
+                                     { draggable: false, position: data.fen, showNotation: true, orientation : data.color, pieceTheme: 'img/chesspieces/merida/{piece}.svg' });
         game_over_timer = setTimeout(function() {  // What if player refreshes the page in this period? - He is not considered a participant
                             $('#GAME_RESULT_DIV').hide();
                             $('#ARENA').show();

@@ -75,7 +75,8 @@ $(document).ready(function() {
 //--------------------------------------------------------------------------
 
     var game = new Chess();
-    game.header('Event', 'Casual Game', 'Site', 'Chess Arena', 'Date', '?', 'Round', '?', 'White', '?', 'Black', '?', 'Result', '*');
+    var d    = moment().format("MMM Do YYYY");
+    game.header('Event', 'Casual Game', 'Site', 'Chess Arena', 'Date', d, 'Round', '?', 'White', '?', 'Black', '?', 'Result', '*');
     var board,
         statusEl = $('#AI_STATUS'),
         pgnEl    = $('#AI_PGN'),
@@ -182,7 +183,7 @@ $(document).ready(function() {
             boardEl.find('.square-' + last_move.from).addClass('highlight-last-move');
             boardEl.find('.square-' + last_move.to).addClass('highlight-last-move');
         }
-        
+  
         // Show material difference
         var raw = game.fen();
         var fen = raw.split(" ")[0];
@@ -275,7 +276,8 @@ $(document).ready(function() {
                 boardEl.find('.square-' + last_move.to).removeClass('highlight-last-move');
             }
             game.reset();
-            game.header('Event', 'Casual Game', 'Site', 'Chess Arena', 'Date', '?', 'Round', '?', 'White', '?', 'Black', '?', 'Result', '*');
+            var d = moment().format("MMM Do YYYY");
+            game.header('Event', 'Casual Game', 'Site', 'Chess Arena', 'Date', d, 'Round', '?', 'White', '?', 'Black', '?', 'Result', '*');
             if (color == 'black') {
                 color = 'white';
                 board.flip();
@@ -372,7 +374,8 @@ $(document).ready(function() {
             boardEl.find('.square-' + last_move.to).removeClass('highlight-last-move');
         }
         game.reset();
-        game.header('Event', 'Casual Game', 'Site', 'Chess Arena', 'Date', '?', 'Round', '?', 'White', '?', 'Black', '?', 'Result', '*');
+        var d = moment().format("MMM Do YYYY");
+        game.header('Event', 'Casual Game', 'Site', 'Chess Arena', 'Date', d, 'Round', '?', 'White', '?', 'Black', '?', 'Result', '*');
         if (color == 'black') {
             color = 'white';
             board.flip();

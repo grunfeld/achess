@@ -30,11 +30,11 @@ $(document).ready(function() {
     
     //var base_url = 'http://localhost:3333';
     var base_url = 'https://chess-arena.herokuapp.com';
-    var socket = io.connect(base_url);
+    var socket   = io.connect(base_url);
 
     if ($('#H_BOARD').length) {
-        var token = $('#H_BOARD').data('token');
-        var color  = $('#H_BOARD').data('orientation');
+        var token          = $('#H_BOARD').data('token');
+        var color          = $('#H_BOARD').data('orientation');
         var opponent_color = (color === "white") ? "black" : "white";
         socket.on('casual_wait', function () {
             var url = base_url + '/casual/' + token + "/" + opponent_color;
@@ -43,7 +43,8 @@ $(document).ready(function() {
         });
 
         var game = new Chess();
-        game.header('Event', 'Casual Game', 'Site', 'Chess Arena', 'Date', '?', 'Round', '?', 'White', 'Anon', 'Black', 'Anon', 'Result', '*');
+        var d    = moment().format("MMM Do YYYY");
+        game.header('Event', 'Casual Game', 'Site', 'Chess Arena', 'Date', d, 'Round', '?', 'White', 'Anon', 'Black', 'Anon', 'Result', '*');
         var board,
             statusEl = $('#H_STATUS'),
             pgnEl    = $('#H_PGN'),
@@ -133,7 +134,6 @@ $(document).ready(function() {
                 boardEl.find('.square-' + last_move.from).addClass('highlight-last-move');
                 boardEl.find('.square-' + last_move.to).addClass('highlight-last-move');
             }
-
             // Show material difference
             var raw = game.fen();
             var fen = raw.split(" ")[0];
