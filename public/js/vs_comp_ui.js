@@ -512,7 +512,7 @@ $(document).ready(function() {
         } else if (line == 'readyok') {
             engineStatus.engineReady = true;
         } else {
-            var match = line.match(/^bestmove ([a-h][1-8])([a-h][1-8])([qrbk])?/);
+            var match = line.match(/^bestmove ([a-h][1-8])([a-h][1-8])([qrbn])?/);
             if (match) {
                 var dummy_game = new Chess(position_for_analysis);
                 var move_obj;
