@@ -39,7 +39,7 @@ $(document).ready(function() {
         if (g_backgroundEngine == null) {
             g_backgroundEngineValid = true;
             try {
-                g_backgroundEngine = new Worker("garbochess.js");
+                g_backgroundEngine = new Worker("js/garbochess.js");
                 g_backgroundEngine.error = function (e) {
                     alert("Error from background worker:" + e.message);
                 };
@@ -69,6 +69,11 @@ $(document).ready(function() {
         $('#AI_SWITCH_SIDES_BTN').removeClass("disabled");
         $('#AI_TAKEBACK_BTN').removeClass("disabled");
         $('#AI_RESIGN_BTN').removeClass("disabled");
+        if (!is_stockfish_analyzing) {
+            $('#AI_EVALUATE_BTN').removeClass("disabled");
+        } else {
+            stockfish.postMessage("stop");
+        }
         updateStatus();
     }
 
@@ -126,20 +131,27 @@ $(document).ready(function() {
             return 'snapback';
         board.clear(false);
         board.position(game.fen());
-        updateStatus();
-        if (game.game_over() === true)
+        if (is_stockfish_analyzing)
+            stockfish.postMessage("stop");
+        if (game.game_over()) {
+            EnsureAnalysisStopped();
+            ResetGame();
+            updateStatus();
             return;
+        }
+        updateStatus();
         $('#AI_SWITCH_SIDES_BTN').addClass("disabled");
         $('#AI_TAKEBACK_BTN').addClass("disabled");
         $('#AI_RESIGN_BTN').addClass("disabled");
+        $('#AI_EVALUATE_BTN').addClass("disabled");
         // Call garbochess
-        EnsureAnalysisStopped();
-        ResetGame();
-        InitializeFromFen(game.fen());
         statusEl.html('<i class="fa fa-cog fa-spin fa-fw"></i> Thinking...');
         setTimeout(function() {
+            EnsureAnalysisStopped();
+            ResetGame();
+            InitializeFromFen(game.fen());            
             SearchAndUpdateStatus();
-        }, 50);
+        }, 10);
     };
 
     // update the board position after the piece snap 
@@ -244,8 +256,8 @@ $(document).ready(function() {
         }
         
         var game_is_over = false;
-        if (game.in_checkmate() === true) {
-            if (game.turn() === 'w') {
+        if (game.in_checkmate() == true) {
+            if (game.turn() == 'w') {
                 game.header('Result', '0-1');
             } else {
                 game.header('Result', '1-0');
@@ -256,7 +268,7 @@ $(document).ready(function() {
             $('#AI_GAME_RESULT').html(pgn_html);
             $('#AI_GAME_RESULT_POPUP').modal({ keyboard: false, backdrop: 'static' });
             game_is_over = true;
-        } else if (game.in_draw() === true) {
+        } else if (game.in_draw() == true) {
             game.header('Result', '1/2-1/2');
             var pgn_html  = game.pgn({ newline_char: '<br />' });
             last_game_pgn = game.pgn({ newline_char: '\n' });
@@ -266,7 +278,7 @@ $(document).ready(function() {
             game_is_over = true;
         }
         
-        if (game_is_over === true) {
+        if (game_is_over == true) {
             // Setup the board for the next game
             var h = game.history({ verbose: true });
             if (h.length) {
@@ -307,6 +319,8 @@ $(document).ready(function() {
             return;
         if (game.game_over() === true)
             return;
+        if (is_stockfish_analyzing)
+            stockfish.postMessage("stop");
         board.flip();
         ChangeBoardBackground(board_theme);
         if (color == 'white')
@@ -316,19 +330,22 @@ $(document).ready(function() {
         $('#AI_SWITCH_SIDES_BTN').addClass("disabled");
         $('#AI_TAKEBACK_BTN').addClass("disabled");
         $('#AI_RESIGN_BTN').addClass("disabled");
-        EnsureAnalysisStopped();
-        ResetGame();
-        InitializeFromFen(game.fen());
+        $('#AI_EVALUATE_BTN').addClass("disabled");
         $('#AI_STATUS').html('<i class="fa fa-cog fa-spin fa-fw"></i> Thinking...');
         setTimeout(function() {
+            EnsureAnalysisStopped();
+            ResetGame();
+            InitializeFromFen(game.fen());
             SearchAndUpdateStatus();
-        }, 50);
+        }, 10);
     });
     
     $('#AI_TAKEBACK_BTN').click(function() {
         $(this).blur();
         if ($(this).hasClass("disabled"))
             return;
+        if (is_stockfish_analyzing)
+            stockfish.postMessage("stop");
         var h = game.history({ verbose: true });
         if (h.length < 1)
             return;
@@ -359,6 +376,8 @@ $(document).ready(function() {
         $(this).blur();
         if ($(this).hasClass("disabled"))
             return;
+        if (is_stockfish_analyzing)
+            stockfish.postMessage("stop");
         // Show the game-result modal allow which allows pgn to be downloaded
         var pgn_html  = game.pgn({ newline_char: '<br />' });
         last_game_pgn = game.pgn({ newline_char: '\n' });
@@ -463,4 +482,80 @@ $(document).ready(function() {
         $(this).blur();
         DownLoadPGN("game_vs_gc.pgn", last_game_pgn);
     });
+    
+    var stockfish              = new Worker("js/stockfish.js");
+    var engineStatus           = {};
+    var position_for_analysis  = "";
+    var is_stockfish_analyzing = false;
+    stockfish.postMessage("uci");
+
+    
+    $('#AI_EVALUATE_BTN').click(function() {
+        $(this).blur();
+        if ($(this).hasClass("disabled"))
+            return;
+        if (!is_stockfish_analyzing) {
+            engineStatus = {};
+            stockfish.postMessage("isready");
+            position_for_analysis = game.fen();
+            stockfish.postMessage("position fen " + position_for_analysis);
+            stockfish.postMessage("go depth 16");
+            is_stockfish_analyzing = true;
+            $('#AI_EVALUATE_BTN').addClass("disabled");
+        }
+    });
+
+    stockfish.onmessage = function(event) {
+        var line = event.data;
+        if (line == 'uciok') {
+            engineStatus.engineLoaded = true;
+        } else if (line == 'readyok') {
+            engineStatus.engineReady = true;
+        } else {
+            var match = line.match(/^bestmove ([a-h][1-8])([a-h][1-8])([qrbk])?/);
+            if (match) {
+                var dummy_game = new Chess(position_for_analysis);
+                var move_obj;
+                if (typeof match[3] === 'undefined') {
+                    move_obj = dummy_game.move( {from: match[1], to: match[2]} );
+                } else {
+                    move_obj = dummy_game.move( {from: match[1], to: match[2], promotion: match[3]} );
+                }
+                engineStatus.best_move = move_obj.san;
+                is_stockfish_analyzing = false;
+                $('#AI_EVALUATE_BTN').removeClass("disabled");
+            } else if (match = line.match(/^info .*\bdepth (\d+) .*\bnps (\d+) .*\bpv (.*)/)) {
+                engineStatus.search = 'Depth: ' + match[1] + ' NPS: ' + match[2];
+                engineStatus.pv     = match[3];
+            }
+            if (match = line.match(/^info .*\bscore (\w+) (-?\d+)/)) {
+                var score = parseInt(match[2]) * (game.turn() == 'w' ? 1 : -1);
+                if (match[1] == 'cp') {
+                    engineStatus.score = (score / 100.0).toFixed(2);
+                } else if (match[1] == 'mate') {
+                    engineStatus.score = '#' + score;
+                }
+                if (match = line.match(/\b(upper|lower)bound\b/)) {
+                    engineStatus.score = ((match[1] == 'upper') == (game.turn() == 'w') ? '<= ' : '>= ') + engineStatus.score
+                }
+            }
+        }
+        updateEvaluationDisplay();
+    };
+
+    function updateEvaluationDisplay() {
+        var status = 'Coach: Stockfish 6';
+        if (engineStatus.search) {
+            status += '<br>' + engineStatus.search;
+            if (engineStatus.score) {
+                status += ' Score: ' + engineStatus.score;
+                status += '<br />PV: ' + engineStatus.pv;
+            }
+            if (engineStatus.best_move) {
+                status += '<br/><b>Best move: ' + engineStatus.best_move + '</b>';
+            }
+        }
+        $('#AI_STOCKFISH_EVAL_OUTPUT').html(status);
+    };
+    
 });

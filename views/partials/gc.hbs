@@ -8,6 +8,8 @@
             <div class="panel panel-default">
                 <div class="panel-heading  text-center"><i class="fa fa-exchange" aria-hidden="true"></i> switches sides</div>
             </div>
+            <div id="AI_STOCKFISH_EVAL_OUTPUT" class="panel panel-default" style="border:0;background-color:transparent">
+            </div>
         </div>
         <div id="AI_BOARD" class="col-lg-7" style="width:640px"></div>
         <div class="col-lg-3 pull-right">
@@ -19,6 +21,9 @@
                 <div id="AI_SELF_MATERIAL_DIFF" class="panel-heading" style="padding-left:0px;padding-right:0px;height:60px;background-color:transparent;border:0"></div>
             </div>
             <div class="btn-group" role="group">
+                <button id="AI_EVALUATE_BTN" type="button" class="btn btn-lg btn-default" data-toggle="tooltip" title="Evaluate">
+                    <span class="fa fa-eye" aria-hidden="true"></span>
+                </button>
                 <button id="AI_SWITCH_SIDES_BTN" type="button" class="btn btn-lg btn-default" data-toggle="tooltip" title="Switch sides">
                     <span class="fa fa-exchange" aria-hidden="true"></span>
                 </button>
