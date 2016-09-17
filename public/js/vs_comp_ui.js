@@ -297,6 +297,7 @@ $(document).ready(function() {
         
         if (game_is_over === true) {
             // Setup the board for the next game
+            $('#AI_STOCKFISH_EVAL_OUTPUT').html('Coach: Stockfish 6');
             var h = game.history({ verbose: true });
             if (h.length) {
                 var last_move = h[h.length - 1];
@@ -348,6 +349,7 @@ $(document).ready(function() {
         $('#AI_TAKEBACK_BTN').addClass("disabled");
         $('#AI_RESIGN_BTN').addClass("disabled");
         $('#AI_EVALUATE_BTN').addClass("disabled");
+        $('#AI_STOCKFISH_EVAL_OUTPUT').html('Coach: Stockfish 6');
         $('#AI_STATUS').html('<i class="fa fa-cog fa-spin fa-fw"></i> Thinking...');
         setTimeout(function() {
             EnsureAnalysisStopped();
@@ -386,6 +388,7 @@ $(document).ready(function() {
             game.undo(); // your last move
         }
         board.position(game.fen());
+        $('#AI_STOCKFISH_EVAL_OUTPUT').html('Coach: Stockfish 6');
         updateStatus();
     });
     
@@ -395,6 +398,7 @@ $(document).ready(function() {
             return;
         if (is_stockfish_analyzing)
             stockfish.postMessage("stop");
+        $('#AI_STOCKFISH_EVAL_OUTPUT').html('Coach: Stockfish 6');
         // Show the game-result modal allow which allows pgn to be downloaded
         var pgn_html  = game.pgn({ newline_char: '<br />' });
         last_game_pgn = game.pgn({ newline_char: '\n' });
