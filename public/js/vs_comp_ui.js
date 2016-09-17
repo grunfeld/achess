@@ -259,7 +259,7 @@ $(document).ready(function() {
         }
         
         var game_is_over = false;
-        if (game.in_checkmate() == true) {
+        if (game.in_checkmate() === true) {
             if (game.turn() == 'w') {
                 game.header('Result', '0-1');
             } else {
@@ -271,7 +271,7 @@ $(document).ready(function() {
             $('#AI_GAME_RESULT').html(pgn_html);
             $('#AI_GAME_RESULT_POPUP').modal({ keyboard: false, backdrop: 'static' });
             game_is_over = true;
-        } else if (game.in_draw() == true) {
+        } else if (game.in_draw() === true) {
             game.header('Result', '1/2-1/2');
             var pgn_html  = game.pgn({ newline_char: '<br />' });
             last_game_pgn = game.pgn({ newline_char: '\n' });
@@ -281,7 +281,7 @@ $(document).ready(function() {
             game_is_over = true;
         }
         
-        if (game_is_over == true) {
+        if (game_is_over === true) {
             // Setup the board for the next game
             var h = game.history({ verbose: true });
             if (h.length) {
@@ -447,7 +447,14 @@ $(document).ready(function() {
         var user_fen         =  $('#FEN_INPUT').val();
         var trimmed_user_fen = user_fen.trim();
         $('#FEN_INPUT_MODAL').modal("hide");
-        var trial = new Chess();
+        var trial      = new Chess();
+        var fen_result = trial.validate_fen(trimmed_user_fen);
+        if (!fen_result.valid) {
+            $('#AI_STATUS').empty();
+            $('#AI_STATUS').html(fen_result.error);
+            return;
+        }
+        
         if (trial.load(trimmed_user_fen)) {
         var h = game.history({ verbose: true });
             if (h.length) {
@@ -491,7 +498,6 @@ $(document).ready(function() {
     var position_for_analysis  = "";
     var is_stockfish_analyzing = false;
     stockfish.postMessage("uci");
-
     
     $('#AI_EVALUATE_BTN').click(function() {
         $(this).blur();
