@@ -4,6 +4,9 @@ function CharsInAString(str, ch) {
 
 $(document).ready(function() {
 
+    // Keep it disabled on page load until stockfish is up; enabled when engineStatus.engineLoaded is true
+    $('#AI_EVALUATE_BTN').addClass("disabled");
+
     function DownLoadPGN(filename, text) {
         // Set up the link
         var link = document.createElement("a");
@@ -545,6 +548,10 @@ $(document).ready(function() {
 
     function updateEvaluationDisplay() {
         var status = 'Coach: Stockfish 6';
+        if (engineStatus.engineLoaded) {
+            if ($('#AI_EVALUATE_BTN').hasClass("disabled"))
+                $('#AI_EVALUATE_BTN').removeClass("disabled");
+        }
         if (engineStatus.search) {
             status += '<br>' + engineStatus.search;
             if (engineStatus.score) {
