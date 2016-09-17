@@ -182,6 +182,7 @@ $(document).ready(function() {
         }
         statusEl.html(status);
         fenEl.html(game.fen());
+        pgnEl.empty();
         
         // Hightlight the last move
         var h = game.history({ verbose: true });
@@ -196,7 +197,6 @@ $(document).ready(function() {
             boardEl.find('.square-' + last_move.from).addClass('highlight-last-move');
             boardEl.find('.square-' + last_move.to).addClass('highlight-last-move');
 
-            pgnEl.empty();
             //pgnEl.html(game.pgn({ max_width: 5, newline_char: '<br />' }));
             //pgnEl.animate({scrollTop: 10000}); // scroll down to the last move
             var pgn_text = "<table>";
