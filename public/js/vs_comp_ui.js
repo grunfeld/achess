@@ -181,8 +181,6 @@ $(document).ready(function() {
             }
         }
         statusEl.html(status);
-        pgnEl.html(game.pgn({ max_width: 5, newline_char: '<br />' }));
-        pgnEl.animate({scrollTop: 10000}); // scroll down to the last move
         fenEl.html(game.fen());
         
         // Hightlight the last move
@@ -197,6 +195,22 @@ $(document).ready(function() {
             var last_move = h[h.length - 1];
             boardEl.find('.square-' + last_move.from).addClass('highlight-last-move');
             boardEl.find('.square-' + last_move.to).addClass('highlight-last-move');
+
+            pgnEl.empty();
+            //pgnEl.html(game.pgn({ max_width: 5, newline_char: '<br />' }));
+            //pgnEl.animate({scrollTop: 10000}); // scroll down to the last move
+            var pgn_text = "<table>";
+            var i = 0;
+            for (i = 0; i < h.length - 1; i += 2) {
+                pgn_text += '<tr><td class="firstmovetab">' + (i/2+1).toString() + '. ' + h[i].san + '</td>';
+                pgn_text += '<td>' + h[i+1].san + '</td></tr>';
+            }
+            if (i == h.length - 1) {
+                pgn_text += '<tr><td colspan="2" class="firstmovetab">' + (i/2+1).toString() + '. ' + h[i].san + '</td></tr>';
+            }
+            pgn_text += "</table>";
+            pgnEl.html(pgn_text);
+            pgnEl.scrollTop(pgnEl.prop("scrollHeight"));
         }
   
         // Show material difference

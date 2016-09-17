@@ -120,13 +120,7 @@ body {
 }
 
 .firstmovetab {
-    position:absolute;
-    left:3em;
-}
-.secondmovetab {
-    position:absolute;
-    clear:right;
-    left:11em;
+    width:120px;
 }
 
 .pgn_box {
