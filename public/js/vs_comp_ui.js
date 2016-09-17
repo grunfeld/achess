@@ -539,7 +539,7 @@ $(document).ready(function() {
                     engineStatus.score = '#' + score;
                 }
                 if (match = line.match(/\b(upper|lower)bound\b/)) {
-                    engineStatus.score = ((match[1] == 'upper') == (game.turn() == 'w') ? '<= ' : '>= ') + engineStatus.score
+                    engineStatus.score = ((match[1] == 'upper') == (game.turn() == 'w') ? '<= ' : '>= ') + engineStatus.score;
                 }
             }
         }
@@ -563,6 +563,6 @@ $(document).ready(function() {
             }
         }
         $('#AI_STOCKFISH_EVAL_OUTPUT').html(status);
-    };
+    }
     
 });
