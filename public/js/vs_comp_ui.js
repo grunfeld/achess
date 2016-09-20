@@ -112,8 +112,8 @@ $(document).ready(function() {
         var promote_to = 'q';
         if (piece.type === 'p') {
             var c         = piece.color;
-            var pattern_w = new RegExp("[abcefgh]8$");
-            var pattern_b = new RegExp("[abcefgh]1$");
+            var pattern_w = new RegExp("[abcdefgh]8$");
+            var pattern_b = new RegExp("[abcdefgh]1$");
             if (c === 'w' && pattern_w.test(target)) {
                 promote_to = prompt("Promote to? q r n b", "q");
                 promote_to = promote_to.toLowerCase();
