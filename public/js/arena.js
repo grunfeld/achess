@@ -396,9 +396,9 @@ $(document).ready(function() {
             pgnEl.empty();
             //pgnEl.html(game.pgn({max_width: 5, newline_char: '<br />'}));
             //pgnEl.animate({scrollTop: 10000}); // scroll down to the last move
-            var pgn_text = "<table>";
-            pgn_text += '<tr><td class="firstmovetab">' + game.header().White + '</td>';
-            pgn_text += '<td>' + game.header().Black + '</td></tr>';
+            var pgn_text = "<table class=\"table table-striped\">";
+            pgn_text += '<thead><tr><th class="firstmovetab">' + game.header().White + '</th>';
+            pgn_text += '<th>' + game.header().Black + '</th></tr></thead>';
             if (h.length) {
                 var i = 0;
                 for (i = 0; i < h.length - 1; i += 2) {
