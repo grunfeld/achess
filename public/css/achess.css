@@ -152,3 +152,19 @@ body {
 	background: rgba(68,68,68,0.4); 
 }
 
+.gutter-4.row {
+    margin-right: -2px;
+    margin-left: -2px;
+}
+.gutter-4 > [class^="col-"], .gutter-4 > [class^=" col-"] {
+    padding-right: 2px;
+    padding-left: 2px;
+}
+
+/* TODO
+@media (min-width: 1300px) {
+    .container{
+        width: 1300px;
+    }
+}
+*/

@@ -199,7 +199,7 @@ $(document).ready(function() {
 
             //pgnEl.html(game.pgn({ max_width: 5, newline_char: '<br />' }));
             //pgnEl.animate({scrollTop: 10000}); // scroll down to the last move
-            var pgn_text = "<table>";
+            var pgn_text = "<table class=\"table table-striped\">";
             var i = 0;
             for (i = 0; i < h.length - 1; i += 2) {
                 pgn_text += '<tr><td class="firstmovetab">' + (i/2+1).toString() + '. ' + h[i].san + '</td>';
@@ -579,7 +579,7 @@ $(document).ready(function() {
         if (engineStatus.search) {
             status += '<br>' + engineStatus.search;
             if (engineStatus.score) {
-                status += ' Score: ' + engineStatus.score;
+                status += '<br />Score: ' + engineStatus.score;
                 status += '<br />PV: ' + engineStatus.pv;
             }
             if (engineStatus.best_move) {
