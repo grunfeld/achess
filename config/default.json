@@ -1,0 +1,5 @@
+{
+    "achess": {
+        "db_dev": "mongodb://localhost/achess"
+    }
+}
