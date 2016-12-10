@@ -7,8 +7,7 @@ module.exports = function(app, mongoose) {
             auto_reconnect: true
         };
         mongoose.Promise = global.Promise;
-        //mongoose.connect(config.get('achess.db_dev'), options);
-        mongoose.connect(config.get('achess.db'), options);
+        mongoose.connect(config.get('achess.db_dev'), options);
     };
 
     connect();

@@ -28,8 +28,7 @@ $(document).ready(function() {
         document.body.removeChild(link);
     }
     
-    //var base_url = 'http://localhost:3333';
-    var base_url = 'https://chess-arena.herokuapp.com';
+    var base_url = 'http://localhost:3333';
     var socket   = io.connect(base_url);
 
     if ($('#H_BOARD').length) {

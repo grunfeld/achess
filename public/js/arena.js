@@ -53,8 +53,7 @@ $(document).ready(function() {
         document.body.removeChild(link);
     }
     
-    //var socket = io.connect('http://localhost:3333');
-    var socket = io.connect('https://chess-arena.herokuapp.com');
+    var socket = io.connect('http://localhost:3333');
 
     var player = "";
     if ($('#ONLINE_PLAYER').length) {
