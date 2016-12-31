@@ -29,6 +29,7 @@ $(document).ready(function() {
     }
     
     var base_url = 'http://localhost:3333';
+    //var base_url = 'https://chess-arena.herokuapp.com';
     var socket   = io.connect(base_url);
 
     if ($('#H_BOARD').length) {
@@ -205,7 +206,10 @@ $(document).ready(function() {
                 diff = bq - wq;
                 $('#H_OPPN_MATERIAL_DIFF').prepend('<img src="../../img/chesspieces/regular/bq.svg" alt="Q" height="28" />&times;' + diff.toString());
             }
-            
+
+            if ($('#H_RESIGN_BTN_ICON').hasClass("fa-check")) // Take away confirm-resign? icon
+                $('#H_RESIGN_BTN_ICON').removeClass("fa-check").addClass("fa-flag");
+
             // Show the result-modal if the game has ended
             if (game.in_checkmate() === true) {
                 if (game.turn() === 'w') {
@@ -287,6 +291,13 @@ $(document).ready(function() {
         $('#H_RESIGN_BTN').click(function(ev) {
             ev.preventDefault();
             $(this).blur();
+            // Confirm the resignation
+            if ($('#H_RESIGN_BTN_ICON').hasClass("fa-flag")) {
+                $('#H_RESIGN_BTN_ICON').removeClass("fa-flag").addClass("fa-check");
+                return;
+            } else {
+                $('#H_RESIGN_BTN_ICON').removeClass("fa-check").addClass("fa-flag");
+            }
             socket.emit('casual_resign', { token: token, color: color });
         });
         
