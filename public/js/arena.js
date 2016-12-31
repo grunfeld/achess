@@ -54,6 +54,7 @@ $(document).ready(function() {
     }
     
     var socket = io.connect('http://localhost:3333');
+    //var socket = io.connect('https://chess-arena.herokuapp.com');
 
     var player = "";
     if ($('#ONLINE_PLAYER').length) {
@@ -374,6 +375,8 @@ $(document).ready(function() {
         };
 
         var updateStatus = function() {
+            if ($('#RESIGN_BTN_ICON').hasClass("fa-check")) // Take away confirm-resign? icon
+                $('#RESIGN_BTN_ICON').removeClass("fa-check").addClass("fa-flag");
             var status    = '';
             var moveColor = 'White';
             if (game.turn() === 'b') {
@@ -492,6 +495,13 @@ $(document).ready(function() {
     
     $('#RESIGN_BTN').click(function() {
         $(this).blur();
+        // Confirm the resignation
+        if ($('#RESIGN_BTN_ICON').hasClass("fa-flag")) {
+            $('#RESIGN_BTN_ICON').removeClass("fa-flag").addClass("fa-check");
+            return;
+        } else {
+            $('#RESIGN_BTN_ICON').removeClass("fa-check").addClass("fa-flag");
+        }
         socket.emit("resign", {});
     });
 
