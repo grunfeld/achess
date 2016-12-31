@@ -271,7 +271,10 @@ $(document).ready(function() {
             diff = bq - wq;
             $('#AI_OPPN_MATERIAL_DIFF').prepend('<img src="img/chesspieces/regular/bq.svg" alt="Q" height="28" />&times;' + diff.toString());
         }
-        
+
+        if ($('#AI_RESIGN_BTN_ICON').hasClass("fa-check")) // Take away confirm-resign? icon
+            $('#AI_RESIGN_BTN_ICON').removeClass("fa-check").addClass("fa-flag");
+
         var game_is_over = false;
         if (game.in_checkmate() === true) {
             if (game.turn() == 'w') {
@@ -396,6 +399,15 @@ $(document).ready(function() {
         $(this).blur();
         if ($(this).hasClass("disabled"))
             return;
+        
+        // First confirm the resignation
+        if ($('#AI_RESIGN_BTN_ICON').hasClass("fa-flag")) {
+            $('#AI_RESIGN_BTN_ICON').removeClass("fa-flag").addClass("fa-check");
+            return;
+        } else {
+            $('#AI_RESIGN_BTN_ICON').removeClass("fa-check").addClass("fa-flag");
+        }
+
         if (is_stockfish_analyzing)
             stockfish.postMessage("stop");
         $('#AI_STOCKFISH_EVAL_OUTPUT').html('Coach: Stockfish 6');
