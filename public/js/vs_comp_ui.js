@@ -154,7 +154,7 @@ $(document).ready(function() {
             ResetGame();
             InitializeFromFen(game.fen());            
             SearchAndUpdateStatus();
-        }, 10);
+        }, 1000);
     };
 
     // update the board position after the piece snap 
@@ -359,7 +359,7 @@ $(document).ready(function() {
             ResetGame();
             InitializeFromFen(game.fen());
             SearchAndUpdateStatus();
-        }, 10);
+        }, 1000);
     });
     
     $('#AI_TAKEBACK_BTN').click(function() {
