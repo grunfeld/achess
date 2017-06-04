@@ -161,6 +161,7 @@ $(document).ready(function() {
     // for castling, en passant, pawn promotion
     var onSnapEnd = function() {
         board.position(game.fen());
+        updateStatus();
     };
 
     var updateStatus = function() {
