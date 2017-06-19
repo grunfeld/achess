@@ -8,7 +8,6 @@ module.exports = function(app, mongoose) {
         };
         mongoose.Promise = global.Promise;
         mongoose.connect(config.get('achess.db'), options);
-        //mongoose.connect(config.get('achess.db_dev'), options);
     };
 
     connect();
