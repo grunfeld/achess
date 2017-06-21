@@ -372,7 +372,7 @@ $(document).ready(function() {
             ScrollDownTheChat();
         });
 
-        var board_theme = 2;
+        var board_theme = 0;
         $('#H_CHANGE_BOARD_BACKGROUND').click(function(ev) {
             board_theme = board_theme + 1;
             board_theme = board_theme % 3;

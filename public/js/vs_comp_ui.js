@@ -90,7 +90,7 @@ $(document).ready(function() {
         pgnEl    = $('#AI_PGN'),
         fenEl    = $('#AI_FEN'),
         color    = 'white';
-    var board_theme = 1; // blue
+    var board_theme = 0;
     var last_game_pgn; // Used for downloading pgn from the modal
     
     // Do not pick up pieces if the game is over
