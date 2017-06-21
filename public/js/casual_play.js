@@ -378,28 +378,28 @@ $(document).ready(function() {
             board_theme = board_theme % 3;
             switch (board_theme) {
                 case 0: // chessboard.js default (brown)
-                    $('#AI_BOARD .white-1e1d7').css("background-color", "#f0d9b5");
-                    $('#AI_BOARD .black-3c85d').css("background-color", "#b58863");
-                    $('#AI_BOARD .white-1e1d7').css("color", "#b58863");
-                    $('#AI_BOARD .black-3c85d').css("color", "#f0d9b5");
+                    $('#H_BOARD .white-1e1d7').css("background-color", "#f0d9b5");
+                    $('#H_BOARD .black-3c85d').css("background-color", "#b58863");
+                    $('#H_BOARD .white-1e1d7').css("color", "#b58863");
+                    $('#H_BOARD .black-3c85d').css("color", "#f0d9b5");
                     break;
                 case 1: // blue
-                    $('#AI_BOARD .white-1e1d7').css("background-color", "#dee3e6");
-                    $('#AI_BOARD .black-3c85d').css("background-color", "#8ca2ad");
-                    $('#AI_BOARD .white-1e1d7').css("color", "#8ca2ad");
-                    $('#AI_BOARD .black-3c85d').css("color", "#dee3e6");
+                    $('#H_BOARD .white-1e1d7').css("background-color", "#dee3e6");
+                    $('#H_BOARD .black-3c85d').css("background-color", "#8ca2ad");
+                    $('#H_BOARD .white-1e1d7').css("color", "#8ca2ad");
+                    $('#H_BOARD .black-3c85d').css("color", "#dee3e6");
                     break;
                 case 2: // greenish
-                    $('#AI_BOARD .white-1e1d7').css("background-color", "#e8e1d9");
-                    $('#AI_BOARD .black-3c85d').css("background-color", "#b2997f");
-                    $('#AI_BOARD .white-1e1d7').css("color", "#b2997f");
-                    $('#AI_BOARD .black-3c85d').css("color", "#e8e1d9");
+                    $('#H_BOARD .white-1e1d7').css("background-color", "#e8e1d9");
+                    $('#H_BOARD .black-3c85d').css("background-color", "#b2997f");
+                    $('#H_BOARD .white-1e1d7').css("color", "#b2997f");
+                    $('#H_BOARD .black-3c85d').css("color", "#e8e1d9");
                     break;
                 default:
-                    $('#AI_BOARD .white-1e1d7').css("background-color", "#f0d9b5");
-                    $('#AI_BOARD .black-3c85d').css("background-color", "#b58863");
-                    $('#AI_BOARD .white-1e1d7').css("color", "#b58863");
-                    $('#AI_BOARD .black-3c85d').css("color", "#f0d9b5");
+                    $('#H_BOARD .white-1e1d7').css("background-color", "#f0d9b5");
+                    $('#H_BOARD .black-3c85d').css("background-color", "#b58863");
+                    $('#H_BOARD .white-1e1d7').css("color", "#b58863");
+                    $('#H_BOARD .black-3c85d').css("color", "#f0d9b5");
                     break;
             }
         });
