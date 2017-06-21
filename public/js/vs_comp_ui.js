@@ -67,7 +67,7 @@ $(document).ready(function() {
             if (alg_notation_move.length == 5)
                 prom = alg_notation_move[4];
             game.move({ from: f, to: t, promotion: prom });
-            board.position(game.fen());
+            board.position(game.fen(), false);
         }
         $('#AI_SWITCH_SIDES_BTN').removeClass("disabled");
         $('#AI_TAKEBACK_BTN').removeClass("disabled");
@@ -133,7 +133,7 @@ $(document).ready(function() {
         if (move === null) // illegal move
             return 'snapback';
         board.clear(false);
-        board.position(game.fen());
+        board.position(game.fen(), false);
         if (is_stockfish_analyzing)
             stockfish.postMessage("stop");
         if (game.game_over()) {
@@ -160,7 +160,7 @@ $(document).ready(function() {
     // update the board position after the piece snap 
     // for castling, en passant, pawn promotion
     var onSnapEnd = function() {
-        board.position(game.fen());
+        board.position(game.fen(), false);
     };
 
     var updateStatus = function() {
@@ -316,7 +316,7 @@ $(document).ready(function() {
                 board.flip();
                 ChangeBoardBackground(board_theme);
             }
-            board.position(game.fen());
+            board.position(game.fen(), false);
             updateStatus();
         }
     };
@@ -390,7 +390,7 @@ $(document).ready(function() {
             game.undo(); // opponent's move
             game.undo(); // your last move
         }
-        board.position(game.fen());
+        board.position(game.fen(), false);
         $('#AI_STOCKFISH_EVAL_OUTPUT').html('Coach: Stockfish 6');
         updateStatus();
     });
@@ -433,7 +433,7 @@ $(document).ready(function() {
             board.flip();
             ChangeBoardBackground(board_theme);
         }
-        board.position(game.fen());
+        board.position(game.fen(), false);
         updateStatus();
     });
     
@@ -452,11 +452,11 @@ $(document).ready(function() {
                 $('#AI_BOARD .white-1e1d7').css("color", "#8ca2ad");
                 $('#AI_BOARD .black-3c85d').css("color", "#dee3e6");
                 break;
-            case 2: // green
-                $('#AI_BOARD .white-1e1d7').css("background-color", "#ffffdd");
-                $('#AI_BOARD .black-3c85d').css("background-color", "#86a666");
-                $('#AI_BOARD .white-1e1d7').css("color", "#86a666");
-                $('#AI_BOARD .black-3c85d').css("color", "#ffffdd");
+            case 2: // greenish
+                $('#AI_BOARD .white-1e1d7').css("background-color", "#e8e1d9");
+                $('#AI_BOARD .black-3c85d').css("background-color", "#b2997f");
+                $('#AI_BOARD .white-1e1d7').css("color", "#b2997f");
+                $('#AI_BOARD .black-3c85d').css("color", "#e8e1d9");
                 break;
             default:
                 $('#AI_BOARD .white-1e1d7').css("background-color", "#f0d9b5");
@@ -506,7 +506,7 @@ $(document).ready(function() {
             } else{
                 color = 'white';
             }
-            board.position(game.fen());
+            board.position(game.fen(), false);
             updateStatus();
         } else {
             $('#AI_STATUS').empty();
