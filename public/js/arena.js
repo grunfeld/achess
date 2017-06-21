@@ -450,6 +450,10 @@ $(document).ready(function() {
             socket.emit("draw_denied", {});
         }
         board = ChessBoard('BOARD', cfg);
+        $('#BOARD .white-1e1d7').css("background-color", "#e8e1d9");
+        $('#BOARD .black-3c85d').css("background-color", "#b2997f");
+        $('#BOARD .white-1e1d7').css("color", "#b2997f");
+        $('#BOARD .black-3c85d').css("color", "#e8e1d9");
         updateStatus();
         
         var h = game.history({ verbose: true });
