@@ -37,11 +37,6 @@ html * {
   font-family:Roboto Slab,Roboto,Calibri,sans-serif;
 }
 
-body {
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-
 #GAME_PGN, #ARENA_LEADERBOARD ul li {
     font-family:Roboto Mono,Consolas,monospace;
 }
