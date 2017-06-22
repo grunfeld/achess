@@ -46,6 +46,17 @@ $ npm install
 $ bower install
 $ node achess.js
 ```
+
+### IMPORTANT NOTE - chessboard.js bower repository problem
+
+chessboard.js's bower repository only contains chessboard.js file. So the bower_components needs this update after the install.
+
+```sh
+$ cd public/bower_components/chessboardjs
+$ cp -r ../../chessboardjs/* .
+```
+views/layout.hbs refers to public/chessboardjs folder instead of public/bower_components for this very reason.
+
 ## How to play?
 1. Server starts at http://localhost:3333/
 2. First create an account by the name "admin" and logout. Only admin can start the tournament.
